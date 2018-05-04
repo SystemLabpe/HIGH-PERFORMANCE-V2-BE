@@ -36,8 +36,8 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
 
 //ADMIN
 Route::middleware(['auth:api','scope:admin'])->group(function () {
-    Route::get('users', 'UserController@all');
-    Route::post('user', 'UserController@add');
+    Route::get('users/club/{club_id}', 'UserController@allByClub');
+    Route::post('user/club/{club_id}', 'UserController@addByClub');
 
     Route::get('clubs/customers', 'ClubController@allCustomers');
     Route::post('clubs/customer', 'ClubController@addCustomer');

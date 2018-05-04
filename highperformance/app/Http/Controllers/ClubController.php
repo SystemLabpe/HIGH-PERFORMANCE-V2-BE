@@ -39,7 +39,7 @@ class ClubController extends Controller{
         $club->full_name = $request->full_name;
         $club->save();
 
-        return $this->createSuccessResponse();
+        return $this->createDataResponse($club);
     }
 
     public function editCustomer(Request $request,$id){

@@ -21,12 +21,21 @@ class UserController extends Controller {
         return $request->user();
     }
 
-    public function all(){
-        $users = User::all();
-        return $this->createDataResponse($users);
+//Route::get('users/club/{club_id}', 'UserController@allByClub');
+//Route::post('user/club/{club_id}', 'UserController@addByClub');
+
+
+    public function allByClub($club_id){
+        $users = User::where('active',config('active.ACTIVE'))
+                ->where('club_id',$club_id)
+                ->get();
+        if(count($users)>0){
+            return $this->createDataResponse($users);
+        }
+        return $this->createErrorResponse('Empty club list',config('customErrors.NO_LIST_RESULTS'));
     }
 
-    public function add(Request $request){
+    public function addByClub(Request $request){
         $request->validate([
             'name' => 'required',
             'email' => 'required',
