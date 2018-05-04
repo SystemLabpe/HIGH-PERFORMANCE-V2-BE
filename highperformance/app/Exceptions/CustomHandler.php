@@ -10,6 +10,7 @@ namespace App\Exceptions;
 
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Exceptions\MissingScopeException;
 use Log;
@@ -23,10 +24,15 @@ class CustomHandler extends Handler{
             return response()->json(['message' => 'Unauthorized', 'code'=> config('customErrors.UNAUTHORIZED')], 401);
         }else if($e instanceof  MissingScopeException){
             return response()->json(['message' => 'Invalid scope', 'code'=> config('customErrors.UNAUTHORIZED')], 401);
-        }else {
-            return response()->json($e->getTraceAsString());
+        }else if($e instanceof AuthenticationException){
+            return response()->json(['message' => 'Unauthorized', 'code'=> config('customErrors.UNAUTHORIZED')], 401);
+        } else{
+            return response()->json(['message' => "Internal Error",'code' => 500], 500);
+//            return response()->json($e->getTraceAsString());
         }
 //        return parent::render($request, $e);
     }
 
 }
+
+//League\OAuth2\Server\Exception\OAuthServerException

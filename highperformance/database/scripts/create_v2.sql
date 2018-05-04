@@ -101,7 +101,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` VALUES 
-(1,'Admin','admin@ehp.pe','$2y$10$uJ0Kkny3pUctVaJB.cJ86Ohxlu04qFFrV0ovHiLBBGIkKGHqBD5Fu',1,null,'2018-05-01 22:11:10','2018-05-01 22:11:10'); -- CLAVE = password
+(1,'Admin','admin@ehp.pe','$2y$10$uJ0Kkny3pUctVaJB.cJ86Ohxlu04qFFrV0ovHiLBBGIkKGHqBD5Fu',2,null,'2018-05-01 22:11:10','2018-05-01 22:11:10'); -- CLAVE = password
 
 INSERT INTO `oauth_clients` VALUES 
 (1,NULL,'Laravel Personal Access Client','DXdnFoP3etxPP0ZUbENdgNZk0l0G7Ow5FanM6Of7','http://localhost',1,0,0,'2018-05-01 22:11:10','2018-05-01 22:11:10'),

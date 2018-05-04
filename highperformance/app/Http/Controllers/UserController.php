@@ -17,6 +17,10 @@ use Log;
 
 class UserController extends Controller {
 
+    public function me(Request $request){
+        return $request->user();
+    }
+
     public function all(){
         $users = User::all();
         return $this->createDataResponse($users);

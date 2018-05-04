@@ -44,6 +44,11 @@ class ApiLoginController extends AccessTokenController {
         return parent::issueToken($tokenRequest);
     }
 
+    public function revokeToken(Request $request) {
+        $request->user()->token()->revoke();
+        return response()->json([], 204);
+    }
+
 
 
 }

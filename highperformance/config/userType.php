@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'USER' => 0,
-    'ADMIN' => 1
+    'USER' => 1,
+    'ADMIN' => 2
 ];
