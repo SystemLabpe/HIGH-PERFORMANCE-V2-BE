@@ -1,0 +1,4 @@
+INSERT INTO `hp_db`.`clubs` (`full_name`, `picture`, `active`, `created_at`, `updated_at`) VALUES ('Universitario de Deportes', 'http://18.188.252.113/club.png', '1', '2018-05-01 22:11:10', '2018-05-01 22:11:10');
+INSERT INTO `hp_db`.`clubs` (`full_name`, `picture`, `active`, `created_at`, `updated_at`) VALUES ('Alianza Lima', 'http://18.188.252.113/club.png', '1', '2018-05-01 22:11:10', '2018-05-01 22:11:10');
+INSERT INTO `hp_db`.`clubs` (`full_name`, `picture`, `rival_club_id`, `active`, `created_at`, `updated_at`) VALUES ('Sporting Cristal 1', 'http://18.188.252.113/club.png', '1', '1', '2018-05-01 22:11:10', '2018-05-01 22:11:10');
+INSERT INTO `hp_db`.`clubs` (`full_name`, `picture`, `rival_club_id`, `active`, `created_at`, `updated_at`) VALUES ('Sporting Cristal 2', 'http://18.188.252.113/club.png', '1', '1', '2018-05-01 22:11:10', '2018-05-01 22:11:10');
