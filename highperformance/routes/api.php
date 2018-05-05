@@ -45,6 +45,16 @@ Route::middleware(['auth:api','scope:admin'])->group(function () {
     Route::post('clubs/customer', 'ClubController@addCustomer');
     Route::put('clubs/customer/{id}', 'ClubController@editCustomer');
     Route::delete('clubs/customer/{id}', 'ClubController@deleteCustomer');
+
+    Route::get('fieldAreas', 'FieldAreaController@all');
+    Route::post('fieldArea', 'FieldAreaController@add');
+    Route::put('fieldArea/{id}', 'FieldAreaController@edit');
+    Route::delete('fieldArea/{id}', 'FieldAreaController@delete');
+
+    Route::get('startTypes', 'StartTypeController@all');
+    Route::post('startType', 'StartTypeController@add');
+    Route::put('startType/{id}', 'StartTypeController@edit');
+    Route::delete('startType/{id}', 'StartTypeController@delete');
 });
 
 //USER AND ADMIN

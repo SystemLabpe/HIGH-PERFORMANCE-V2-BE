@@ -134,8 +134,8 @@ INSERT INTO `hp_db`.`users` VALUES
 (1,'Admin','admin@ehp.pe','$2y$10$uJ0Kkny3pUctVaJB.cJ86Ohxlu04qFFrV0ovHiLBBGIkKGHqBD5Fu',2,null,null,'2018-05-01 22:11:10','2018-05-01 22:11:10'); -- CLAVE = password
 
 
-DROP TABLE IF EXISTS `hp_db`.`start_type`;
-CREATE TABLE `hp_db`.`start_type` (
+DROP TABLE IF EXISTS `hp_db`.`start_types`;
+CREATE TABLE `hp_db`.`start_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/club.png',
@@ -146,8 +146,8 @@ CREATE TABLE `hp_db`.`start_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `hp_db`.`field_area`;
-CREATE TABLE `hp_db`.`field_area` (
+DROP TABLE IF EXISTS `hp_db`.`field_areas`;
+CREATE TABLE `hp_db`.`field_areas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/club.png',

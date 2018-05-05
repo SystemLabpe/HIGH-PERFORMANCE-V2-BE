@@ -63,7 +63,7 @@ class FieldAreaController extends Controller{
     public function delete($id){
         $fieldArea = FieldArea::find($id);
         if(!$fieldArea){
-            return $this->createErrorResponse('Club not found',config('customErrors.ENTITY_NOT_FOUND'));
+            return $this->createErrorResponse('Field Area not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
 
         $fieldArea->active = config('active.INACTIVE');
