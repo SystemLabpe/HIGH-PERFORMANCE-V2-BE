@@ -28,6 +28,7 @@ class CustomHandler extends Handler{
             return response()->json(['message' => 'Unauthorized', 'code'=> config('customErrors.UNAUTHORIZED')], 401);
         } else{
             return response()->json(['message' => "Internal Error",'code' => 500], 500);
+//            Log::info($e->getTraceAsString());
 //            return response()->json($e->getTraceAsString());
         }
 //        return parent::render($request, $e);

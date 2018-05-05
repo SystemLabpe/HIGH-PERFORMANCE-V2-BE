@@ -38,6 +38,8 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
 Route::middleware(['auth:api','scope:admin'])->group(function () {
     Route::get('users/club/{club_id}', 'UserController@allByClub');
     Route::post('user/club/{club_id}', 'UserController@addByClub');
+    Route::put('user/club/{id}', 'UserController@editByClub');
+    Route::delete('user/club/{id}', 'UserController@deleteByClub');
 
     Route::get('clubs/customers', 'ClubController@allCustomers');
     Route::post('clubs/customer', 'ClubController@addCustomer');

@@ -118,7 +118,6 @@ CREATE TABLE `hp_db`.`users` (
   `u_type` tinyint(1) DEFAULT '0',
   `club_id` int(10) unsigned NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -132,7 +131,7 @@ CREATE TABLE `hp_db`.`users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `hp_db`.`users` VALUES 
-(1,'Admin','admin@ehp.pe','$2y$10$uJ0Kkny3pUctVaJB.cJ86Ohxlu04qFFrV0ovHiLBBGIkKGHqBD5Fu',2,null,null,1,'2018-05-01 22:11:10','2018-05-01 22:11:10'); -- CLAVE = password
+(1,'Admin','admin@ehp.pe','$2y$10$uJ0Kkny3pUctVaJB.cJ86Ohxlu04qFFrV0ovHiLBBGIkKGHqBD5Fu',2,null,null,'2018-05-01 22:11:10','2018-05-01 22:11:10'); -- CLAVE = password
 
 
 DROP TABLE IF EXISTS `hp_db`.`start_type`;

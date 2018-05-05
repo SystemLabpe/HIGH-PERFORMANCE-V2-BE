@@ -21,26 +21,18 @@ class UserController extends Controller {
         return $request->user();
     }
 
-//Route::get('users/club/{club_id}', 'UserController@allByClub');
-//Route::post('user/club/{club_id}', 'UserController@addByClub');
-
-
     public function allByClub($club_id){
-        $users = User::where('active',config('active.ACTIVE'))
-                ->where('club_id',$club_id)
-                ->get();
+        $users = User::where('club_id',$club_id)->get();
         if(count($users)>0){
             return $this->createDataResponse($users);
         }
-        return $this->createErrorResponse('Empty club list',config('customErrors.NO_LIST_RESULTS'));
+        return $this->createErrorResponse('Empty User list',config('customErrors.NO_LIST_RESULTS'));
     }
 
-    public function addByClub(Request $request){
+    public function addByClub(Request $request,$club_id){
         $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
-            'u_type' => 'required',
         ]);
 
         $user = User::select('id')->where('email',$request->email)->first();
@@ -51,11 +43,39 @@ class UserController extends Controller {
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->u_type = $request->u_type;
+        $user->password = Hash::make('123456');
+        $user->u_type = config('userType.USER');
+        $user->club_id = $club_id;
         $user->save();
 
         return $this->createDataResponse($user);
+    }
+
+    public function editByClub(Request $request,$id){
+        $user = User::find($id);
+        if(!$user){
+            return $this->createErrorResponse('User not found',config('customErrors.ENTITY_NOT_FOUND'));
+        }
+
+        if($request->has('name')){
+            $user->name = $request->name;
+        }
+
+        if($request->has('email')){
+            $user->email = $request->email;
+        }
+
+        $user->save();
+        return $this->createSuccessResponse();
+    }
+
+    public function deleteByClub($id){
+        $user = User::find($id);
+        if(!$user){
+            return $this->createErrorResponse('User not found',config('customErrors.ENTITY_NOT_FOUND'));
+        }
+        $user->delete();
+        return $this->createSuccessResponse();
     }
 
 }
