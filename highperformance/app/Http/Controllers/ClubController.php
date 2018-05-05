@@ -66,6 +66,8 @@ class ClubController extends Controller{
             return $this->createErrorResponse('Club not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
 
+        $club->users()->delete();
+
         $club->active = config('active.INACTIVE');
         $club->save();
         return $this->createSuccessResponse();

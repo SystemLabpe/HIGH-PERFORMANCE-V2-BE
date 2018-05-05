@@ -62,6 +62,10 @@ class UserController extends Controller {
         }
 
         if($request->has('email')){
+            $existingUser = User::select('id')->where('email',$request->email)->first();
+            if($existingUser){
+                return $this->createErrorResponse('Email already exists',config('customErrors.EXISTING_EMAIL'));
+            }
             $user->email = $request->email;
         }
 
