@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Log;
 
@@ -19,11 +18,10 @@ class FileController extends  Controller{
     public function upload(Request $request){
 //        Log::info($request->file('file')->get);
 //        Log::info($request->file('file')->getClientOriginalExtension());
+//        $response =(object)array();
 //        return 'caca';
-
         $type = $request->input('type');
         $path = $request->file('file')->store($type,'public_server');
-        $response =(object)array();
         return $this->createDataResponse( env('PUBLIC_FOLDER_PATH').$path);
     }
 
