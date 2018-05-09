@@ -21,12 +21,13 @@ Route::get('/version', function () {
     return app()->version();
 });
 
-//Route::post('login', 'ApiLoginController@issueToken');
 
 
+//PUBLIC
 Route::namespace('Auth')->group(function () {
     Route::post('login', 'ApiLoginController@issueToken');
 });
+
 
 
 //USER
@@ -59,6 +60,8 @@ Route::middleware(['auth:api','scope:admin'])->group(function () {
 
 //USER AND ADMIN
 Route::middleware(['auth:api','scope:user,admin'])->group(function () {
+    Route::post('file/upload', 'FileController@upload');
+    
     Route::post('logout', 'Auth\ApiLoginController@revokeToken');
     Route::get('me', 'UserController@me');
 });
