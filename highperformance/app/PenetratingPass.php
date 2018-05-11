@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: josue
- * Date: 4/05/2018
- * Time: 5:05 PM
+ * Date: 10/05/2018
+ * Time: 4:56 PM
  */
 
 namespace App;
@@ -11,10 +11,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FieldArea extends  Model{
+class PenetratingPass extends  Model{
+    protected $table = "penetrating_passes";
 
     protected $fillable = [
         'name', 'picture', 'active','v_desc'
     ];
-
 }

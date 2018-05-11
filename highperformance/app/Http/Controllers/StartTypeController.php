@@ -15,14 +15,14 @@ use Log;
 class StartTypeController extends Controller{
 
     public function all(){
-        $startTypes = StartType::where('active',config('active.ACTIVE'))
+        $list = StartType::where('active',config('active.ACTIVE'))
             ->get();
 
-        if(count($startTypes)>0){
-            return $this->createDataResponse($startTypes);
+        if(count($list)>0){
+            return $this->createDataResponse($list);
         }
 
-        return $this->createErrorResponse('Empty Start type list',config('customErrors.NO_LIST_RESULTS'));
+        return $this->createErrorResponse('Empty list',config('customErrors.NO_LIST_RESULTS'));
     }
 
     public function add(Request $request){
@@ -30,44 +30,52 @@ class StartTypeController extends Controller{
             'name' => 'required',
         ]);
 
-        $startType = new StartType();
-        $startType->name = $request->name;
+        $obj = new StartType();
+        $obj->name = $request->name;
 
-        if($request->has('st_desc')){
-            $startType->st_desc = $request->st_desc;
+        if($request->has('v_desc')){
+            $obj->v_desc = $request->v_desc;
         }
 
-        $startType->save();
+        if($request->has('picture')){
+            $obj->picture = $request->picture;
+        }
 
-        return $this->createDataResponse($startType);
+        $obj->save();
+
+        return $this->createDataResponse($obj);
     }
 
     public function edit(Request $request,$id){
-        $startType = StartType::find($id);
-        if(!$startType){
-            return $this->createErrorResponse('Start type not found',config('customErrors.ENTITY_NOT_FOUND'));
+        $obj = StartType::find($id);
+        if(!$obj){
+            return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
 
         if($request->has('name')){
-            $startType->name = $request->name;
+            $obj->name = $request->name;
         }
 
-        if($request->has('st_desc')){
-            $startType->st_desc = $request->st_desc;
+        if($request->has('v_desc')){
+            $obj->v_desc = $request->v_desc;
         }
 
-        $startType->save();
+        if($request->has('picture')){
+            $obj->picture = $request->picture;
+        }
+
+        $obj->save();
         return $this->createSuccessResponse();
     }
 
     public function delete($id){
-        $startType = StartType::find($id);
-        if(!$startType){
-            return $this->createErrorResponse('Start type not found',config('customErrors.ENTITY_NOT_FOUND'));
+        $obj = StartType::find($id);
+        if(!$obj){
+            return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
 
-        $startType->active = config('active.INACTIVE');
-        $startType->save();
+        $obj->active = config('active.INACTIVE');
+        $obj->save();
         return $this->createSuccessResponse();
     }
 

@@ -2,20 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: josue
- * Date: 4/05/2018
- * Time: 7:41 PM
+ * Date: 10/05/2018
+ * Time: 5:46 PM
  */
 
 namespace App\Http\Controllers;
 
-use App\FieldArea;
+use App\PentagonCompletion;
 use Illuminate\Http\Request;
 use Log;
 
-class FieldAreaController extends Controller{
+class PentagonCompletionController extends Controller{
 
     public function all(){
-        $list = FieldArea::where('active',config('active.ACTIVE'))
+        $list = PentagonCompletion::where('active',config('active.ACTIVE'))
             ->get();
 
         if(count($list)>0){
@@ -30,7 +30,7 @@ class FieldAreaController extends Controller{
             'name' => 'required',
         ]);
 
-        $obj = new FieldArea();
+        $obj = new PentagonCompletion();
         $obj->name = $request->name;
 
         if($request->has('v_desc')){
@@ -47,7 +47,7 @@ class FieldAreaController extends Controller{
     }
 
     public function edit(Request $request,$id){
-        $obj = FieldArea::find($id);
+        $obj = PentagonCompletion::find($id);
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
@@ -69,7 +69,7 @@ class FieldAreaController extends Controller{
     }
 
     public function delete($id){
-        $obj = FieldArea::find($id);
+        $obj = PentagonCompletion::find($id);
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
