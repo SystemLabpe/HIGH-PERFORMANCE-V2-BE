@@ -37,6 +37,10 @@ class ClubController extends Controller{
 
         $club = new Club();
         $club->full_name = $request->full_name;
+        if($request->has('picture')){
+            $club->picture = $request->picture;
+        }
+
         $club->save();
 
         return $this->createDataResponse($club);
