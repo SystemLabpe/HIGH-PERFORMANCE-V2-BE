@@ -94,7 +94,7 @@ DROP TABLE IF EXISTS `hp_db`.`clubs`;
 CREATE TABLE `hp_db`.`clubs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `full_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/club.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `rival_club_id` int(10) unsigned NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -138,7 +138,7 @@ DROP TABLE IF EXISTS `hp_db`.`start_types`;
 CREATE TABLE `hp_db`.`start_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -152,7 +152,7 @@ DROP TABLE IF EXISTS `hp_db`.`field_areas`;
 CREATE TABLE `hp_db`.`field_areas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -165,7 +165,7 @@ DROP TABLE IF EXISTS `hp_db`.`field_zones`;
 CREATE TABLE `hp_db`.`field_zones` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -179,7 +179,7 @@ DROP TABLE IF EXISTS `hp_db`.`initial_penetrations`;
 CREATE TABLE `hp_db`.`initial_penetrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -192,7 +192,7 @@ DROP TABLE IF EXISTS `hp_db`.`player_positions`;
 CREATE TABLE `hp_db`.`player_positions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -206,7 +206,7 @@ DROP TABLE IF EXISTS `hp_db`.`invation_levels`;
 CREATE TABLE `hp_db`.`invation_levels` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -219,7 +219,7 @@ DROP TABLE IF EXISTS `hp_db`.`numerical_balances`;
 CREATE TABLE `hp_db`.`numerical_balances` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -232,7 +232,7 @@ DROP TABLE IF EXISTS `hp_db`.`possession_passes`;
 CREATE TABLE `hp_db`.`possession_passes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -245,7 +245,7 @@ DROP TABLE IF EXISTS `hp_db`.`penetrating_passes`;
 CREATE TABLE `hp_db`.`penetrating_passes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -258,7 +258,7 @@ DROP TABLE IF EXISTS `hp_db`.`progression_types`;
 CREATE TABLE `hp_db`.`progression_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -271,7 +271,7 @@ DROP TABLE IF EXISTS `hp_db`.`pentagon_completions`;
 CREATE TABLE `hp_db`.`pentagon_completions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -284,7 +284,7 @@ DROP TABLE IF EXISTS `hp_db`.`previous_actions`;
 CREATE TABLE `hp_db`.`previous_actions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -297,7 +297,7 @@ DROP TABLE IF EXISTS `hp_db`.`completion_actions`;
 CREATE TABLE `hp_db`.`completion_actions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -310,7 +310,7 @@ DROP TABLE IF EXISTS `hp_db`.`stopped_balls`;
 CREATE TABLE `hp_db`.`stopped_balls` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.png',
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http://18.188.252.113/default.jpg',
   `v_desc` TEXT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
