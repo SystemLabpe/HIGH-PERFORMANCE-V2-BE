@@ -1,29 +1,3 @@
-DROP TABLE IF EXISTS `hp_db`.`players`;
-CREATE TABLE `hp_db`.`players` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `birth_date` date NULL,
-  `club_id` int(10) unsigned NOT NULL,
-  `rival_club_id` int(10) unsigned NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `club_player_idx` (`club_id` ASC),
-  INDEX `rival_club_player_idx` (`rival_club_id` ASC),
-  CONSTRAINT `club_player_fk`
-    FOREIGN KEY (`club_id`)
-    REFERENCES `hp_db`.`clubs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `rival_club_player_fk`
-    FOREIGN KEY (`rival_club_id`)
-    REFERENCES `hp_db`.`clubs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
 DROP TABLE IF EXISTS `hp_db`.`tournaments`;
 CREATE TABLE `hp_db`.`tournaments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -31,6 +5,7 @@ CREATE TABLE `hp_db`.`tournaments` (
   `date_init` date NOT NULL,
   `date_end` date NOT NULL,
   `club_id` int(10) unsigned NOT NULL,
+  `rival_club_id` int(10) unsigned NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -42,27 +17,6 @@ CREATE TABLE `hp_db`.`tournaments` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `hp_db`.`tournament_player` ;
-CREATE TABLE IF NOT EXISTS `hp_db`.`tournament_player` (
-  `tournament_id` INT(11) unsigned NOT NULL,
-  `player_id` INT(11) unsigned NOT NULL,
-  `player_number` CHAR(2) NULL,
-  PRIMARY KEY (`tournament_id`, `player_id`),
-  INDEX `tour_tour_play_idx` (`tournament_id` ASC),
-  INDEX `play_tour_play_idx` (`player_id` ASC),
-  CONSTRAINT `tour_tour_play_fk`
-    FOREIGN KEY (`tournament_id`)
-    REFERENCES `hp_db`.`tournaments` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `play_tour_play_fk`
-    FOREIGN KEY (`player_id`)
-    REFERENCES `hp_db`.`players` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS `hp_db`.`matchs`;
@@ -109,8 +63,8 @@ CREATE TABLE `hp_db`.`chances` (
   `chance_minute` tinyint(3) NOT NULL,
   `is_goal` tinyint(1) NOT NULL DEFAULT '1',
   
-  `assisted_player_id` int(10) unsigned NULL,
-  `scored_player_id` int(10) unsigned NULL,
+  `assisted_player` varchar(255) NULL,
+  `scored_player` varchar(255) NULL,
   
   `match_id` int(10) unsigned NULL,
   
@@ -136,8 +90,6 @@ CREATE TABLE `hp_db`.`chances` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `aplayer_chance_idx` (`assisted_player_id` ASC),
-  INDEX `splayer_chance_idx` (`scored_player_id` ASC),
   INDEX `match_chance_idx` (`match_id` ASC),
   INDEX `sball_chance_idx` (`stopped_ball_id` ASC),
   INDEX `st_chance_idx` (`start_type_id` ASC),
@@ -155,16 +107,6 @@ CREATE TABLE `hp_db`.`chances` (
   INDEX `ca_chance_idx` (`completion_action_id` ASC),
   INDEX `pfz_chance_idx` (`penultimate_field_zone_id` ASC),
   INDEX `lfz_chance_idx` (`last_field_zone_id` ASC),
-  CONSTRAINT `aplayer_chance_fk`
-    FOREIGN KEY (`assisted_player_id`)
-    REFERENCES `hp_db`.`players` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `splayer_chance_fk`
-    FOREIGN KEY (`scored_player_id`)
-    REFERENCES `hp_db`.`players` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `match_chance_fk`
     FOREIGN KEY (`match_id`)
     REFERENCES `hp_db`.`matchs` (`id`)

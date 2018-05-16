@@ -38,6 +38,11 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::put('tournament/me/{id}', 'TournamentController@editMe');
     Route::delete('tournament/me/{id}', 'TournamentController@deleteMe');
 
+    Route::get('clubs/rivals', 'ClubController@allRivals');
+    Route::post('clubs/rival', 'ClubController@addRival');
+    Route::put('clubs/rival/{id}', 'ClubController@editRival');
+    Route::delete('clubs/rival/{id}', 'ClubController@deleteRival');
+
 });
 
 //ADMIN
