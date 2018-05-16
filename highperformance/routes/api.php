@@ -33,6 +33,11 @@ Route::namespace('Auth')->group(function () {
 //USER
 Route::middleware(['auth:api','scope:user'])->group(function () {
 
+    Route::get('tournaments/me', 'TournamentController@allMe');
+    Route::post('tournament/me', 'TournamentController@addMe');
+    Route::put('tournament/me/{id}', 'TournamentController@editMe');
+    Route::delete('tournament/me/{id}', 'TournamentController@deleteMe');
+
 });
 
 //ADMIN

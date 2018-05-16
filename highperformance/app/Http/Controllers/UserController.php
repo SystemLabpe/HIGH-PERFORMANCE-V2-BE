@@ -18,7 +18,8 @@ use Log;
 class UserController extends Controller {
 
     public function me(Request $request){
-        return $request->user();
+        $user = User::with('club')->find($request->user()->id);
+        return $user;
     }
 
     public function allByClub($club_id){
