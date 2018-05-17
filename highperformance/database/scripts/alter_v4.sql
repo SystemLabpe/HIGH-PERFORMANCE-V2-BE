@@ -19,6 +19,34 @@ CREATE TABLE `hp_db`.`tournaments` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+DROP TABLE IF EXISTS `hp_db`.`tournament_club` ;
+CREATE TABLE IF NOT EXISTS `hp_db`.`tournament_club` (
+  `tournament_id` INT(11) unsigned NOT NULL,
+  `club_id` INT(11) unsigned NOT NULL,
+  `rival_club_id` INT(11) unsigned NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`tournament_id`, `club_id`),
+  INDEX `tour_tour_club_idx` (`tournament_id` ASC),
+  INDEX `club_tour_club_idx` (`club_id` ASC),
+  INDEX `rclub_tour_club_idx` (`rival_club_id` ASC),
+  CONSTRAINT `tour_tour_club_fk`
+    FOREIGN KEY (`tournament_id`)
+    REFERENCES `hp_db`.`tournaments` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `club_tour_club_fk`
+    FOREIGN KEY (`club_id`)
+    REFERENCES `hp_db`.`clubs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `rclub_tour_club_fk`
+    FOREIGN KEY (`rival_club_id`)
+    REFERENCES `hp_db`.`clubs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 DROP TABLE IF EXISTS `hp_db`.`matchs`;
 CREATE TABLE `hp_db`.`matchs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

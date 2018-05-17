@@ -14,8 +14,14 @@ use Log;
 
 class TournamentController extends Controller{
 
-    public function allMe(){
+    public function allMe(Request $request){
+        $myClubId = $request->user()->club_id;
         $list = Tournament::where('active',config('active.ACTIVE'))
+            ->with(['clubs'=>function ($query) use($myClubId) {
+                $query
+                    ->where('tournament_club.active',config('active.ACTIVE'))
+                    ->where('tournament_club.rival_club_id',$myClubId);
+            }])
             ->get();
 
         if(count($list)>0){
@@ -30,6 +36,7 @@ class TournamentController extends Controller{
             'name' => 'required',
             'date_init' => 'required',
             'date_end' => 'required',
+            'clubs' => 'required',
         ]);
 
         $obj = new Tournament();
@@ -38,9 +45,25 @@ class TournamentController extends Controller{
         $obj->date_end = $request->date_end;
         $obj->club_id = $request->user()->club_id;
 
-        $obj->save();
+        $pivot = [];
+        foreach ($request->clubs as $club){
+            $club = (object)$club;
+            $pivot[$club->id] = ['rival_club_id'=>$request->user()->club_id];
+        }
 
-        return $this->createDataResponse($obj);
+        $obj->save();
+        $obj->clubs()->sync($pivot);
+
+        $myClubId = $request->user()->club_id;;
+        $returnObj =Tournament::where('active',config('active.ACTIVE'))
+            ->with(['clubs'=>function ($query) use($myClubId) {
+                $query
+                    ->where('tournament_club.active',config('active.ACTIVE'))
+                    ->where('tournament_club.rival_club_id',$myClubId);
+            }])
+            ->find($obj->id);
+
+        return $this->createDataResponse($returnObj);
     }
 
     public function editMe(Request $request,$id){
@@ -61,11 +84,21 @@ class TournamentController extends Controller{
             $obj->date_end = $request->date_end;
         }
 
+        if($request->has('clubs')){
+            $pivot = [];
+            foreach ($request->clubs as $club){
+                $club = (object)$club;
+                $pivot[$club->id] = ['rival_club_id'=>$request->user()->club_id];
+            }
+            $obj->clubs()->sync($pivot);
+        }
+
         $obj->save();
         return $this->createSuccessResponse();
     }
 
     public function deleteMe($id){
+        Log::info('aa');
         $obj = Tournament::find($id);
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));

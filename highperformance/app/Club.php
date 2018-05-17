@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class Club extends Model{
 
     protected $fillable = [
-        'full_name', 'picture', 'active'
+        'full_name', 'picture', 'active','rival_club_id'
     ];
 
     public function rival_club(){
@@ -22,7 +22,7 @@ class Club extends Model{
     }
 
     public function rival_clubs(){
-        return $this->hasMany('App\Club');
+        return $this->hasMany('App\Club','rival_club_id');
     }
 
     public function users(){
