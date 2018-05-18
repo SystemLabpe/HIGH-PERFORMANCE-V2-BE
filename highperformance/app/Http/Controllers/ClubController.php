@@ -131,11 +131,8 @@ class ClubController extends Controller{
         if(!$club){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
-
-        $club->users()->delete();
-
-        $club->active = config('active.INACTIVE');
-        $club->save();
+        $club->tournaments()->sync([]);
+        $club->delete();
         return $this->createSuccessResponse();
     }
 }

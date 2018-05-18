@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tournament extends Model{
 
     protected $fillable = [
-        'name', 'date_init', 'date_end','active'
+        'name', 'date_init', 'date_end'
     ];
 
     public function club(){
@@ -22,7 +22,7 @@ class Tournament extends Model{
     }
 
     public function clubs(){
-        return $this->belongsToMany('App\Club','tournament_club','tournament_id','club_id')->withPivot('rival_club_id','active');
+        return $this->belongsToMany('App\Club','tournament_club','tournament_id','club_id')->withPivot('rival_club_id');
     }
 
 }

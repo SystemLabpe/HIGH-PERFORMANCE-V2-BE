@@ -29,4 +29,8 @@ class Club extends Model{
         return $this->hasMany('App\User');
     }
 
+    public function tournaments(){
+        return $this->belongsToMany('App\Club','tournament_club','club_id','tournament_id')->withPivot('rival_club_id','active');
+    }
+
 }

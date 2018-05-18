@@ -27,7 +27,7 @@ class CustomHandler extends Handler{
         }else if($e instanceof AuthenticationException){
             return response()->json(['message' => 'Unauthorized', 'code'=> config('customErrors.UNAUTHORIZED')], 401);
         } else{
-            Log::info($e->getTraceAsString());
+//            Log::info($e->getTraceAsString());
             return response()->json(['message' => "Internal Error",'code' => 500], 500);
 //            return response()->json($e->getTraceAsString());
         }

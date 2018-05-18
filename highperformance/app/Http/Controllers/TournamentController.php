@@ -16,10 +16,9 @@ class TournamentController extends Controller{
 
     public function allMe(Request $request){
         $myClubId = $request->user()->club_id;
-        $list = Tournament::where('active',config('active.ACTIVE'))
-            ->with(['clubs'=>function ($query) use($myClubId) {
+        $list = Tournament::
+            with(['clubs'=>function ($query) use($myClubId) {
                 $query
-                    ->where('tournament_club.active',config('active.ACTIVE'))
                     ->where('tournament_club.rival_club_id',$myClubId);
             }])
             ->get();
@@ -55,10 +54,9 @@ class TournamentController extends Controller{
         $obj->clubs()->sync($pivot);
 
         $myClubId = $request->user()->club_id;;
-        $returnObj =Tournament::where('active',config('active.ACTIVE'))
-            ->with(['clubs'=>function ($query) use($myClubId) {
+        $returnObj =Tournament::
+            with(['clubs'=>function ($query) use($myClubId) {
                 $query
-                    ->where('tournament_club.active',config('active.ACTIVE'))
                     ->where('tournament_club.rival_club_id',$myClubId);
             }])
             ->find($obj->id);
@@ -98,14 +96,12 @@ class TournamentController extends Controller{
     }
 
     public function deleteMe($id){
-        Log::info('aa');
         $obj = Tournament::find($id);
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
-
-        $obj->active = config('active.INACTIVE');
-        $obj->save();
+        $obj->clubs()->sync([]);
+        $obj->delete();
         return $this->createSuccessResponse();
     }
 
