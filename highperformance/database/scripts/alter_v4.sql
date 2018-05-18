@@ -45,17 +45,16 @@ CREATE TABLE IF NOT EXISTS `hp_db`.`tournament_club` (
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `hp_db`.`matchs`;
-CREATE TABLE `hp_db`.`matchs` (
+DROP TABLE IF EXISTS `hp_db`.`matches`;
+CREATE TABLE `hp_db`.`matches` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `url_detail` varchar(255) NULL,
   `match_date` date NOT NULL,
   `home_score` VARCHAR(200) NOT NULL,
   `away_score` VARCHAR(200) NOT NULL,
-  `tournament_id` int(10) unsigned NULL,
-  `home_club_id` int(10) unsigned NULL,
-  `away_club_id` int(10) unsigned NULL,
+  `tournament_id` int(10) unsigned NOT NULL,
+  `home_club_id` int(10) unsigned NOT NULL,
+  `away_club_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -133,7 +132,7 @@ CREATE TABLE `hp_db`.`chances` (
   INDEX `lfz_chance_idx` (`last_field_zone_id` ASC),
   CONSTRAINT `match_chance_fk`
     FOREIGN KEY (`match_id`)
-    REFERENCES `hp_db`.`matchs` (`id`)
+    REFERENCES `hp_db`.`matches` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `sball_chance_fk`

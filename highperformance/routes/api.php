@@ -32,16 +32,22 @@ Route::namespace('Auth')->group(function () {
 
 //USER
 Route::middleware(['auth:api','scope:user'])->group(function () {
+    Route::get('clubs/rivals', 'ClubController@allRivals');
+    Route::post('clubs/rival', 'ClubController@addRival');
+    Route::put('clubs/rival/{id}', 'ClubController@editRival');
+    Route::delete('clubs/rival/{id}', 'ClubController@deleteRival');
 
     Route::get('tournaments/me', 'TournamentController@allMe');
     Route::post('tournament/me', 'TournamentController@addMe');
     Route::put('tournament/me/{id}', 'TournamentController@editMe');
     Route::delete('tournament/me/{id}', 'TournamentController@deleteMe');
 
-    Route::get('clubs/rivals', 'ClubController@allRivals');
-    Route::post('clubs/rival', 'ClubController@addRival');
-    Route::put('clubs/rival/{id}', 'ClubController@editRival');
-    Route::delete('clubs/rival/{id}', 'ClubController@deleteRival');
+    Route::get('matches/me', 'MatchController@allMe');
+    Route::post('match/me', 'MatchController@addMe');
+    Route::put('match/me/{id}', 'MatchController@editMe');
+    Route::delete('match/me/{id}', 'MatchController@deleteMe');
+
+
 
 });
 
@@ -148,7 +154,7 @@ Route::middleware(['auth:api','scope:user,admin'])->group(function () {
     Route::get('progressionTypes', 'ProgressionTypeController@all');
 
     Route::get('startTypes', 'StartTypeController@all');
-    
+
     Route::get('stoppedBalls', 'StoppedBallController@all');
 });
 

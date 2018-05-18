@@ -14,11 +14,11 @@ use Illuminate\Database\Eloquent\Model;
 class Match extends Model{
 
     protected $fillable = [
-        'name', 'url_detail', 'match_date','home_score','away_score'
+      'url_detail', 'match_date','home_score','away_score'
     ];
 
     public function tournament(){
-        return $this->belongsTo('App\Club');
+        return $this->belongsTo('App\Tournament');
     }
 
     public function home_club(){

@@ -15,7 +15,9 @@ use Log;
 class MatchController extends Controller {
 
     public function allMe(Request $request){
-        $list = Match::where('club_id',$request->user()->club_id)
+        $list = Match::with(['tournament','home_club','away_club'])
+            ->where('home_club_id',$request->user()->club_id)
+            ->orWhere('away_club_id',$request->user()->club_id)
             ->get();
 
         if(count($list)>0){
@@ -27,55 +29,81 @@ class MatchController extends Controller {
 
     public function addMe(Request $request){
         $request->validate([
-            'name' => 'required',
+            'match_date' => 'required',
+            'home_score' => 'required',
+            'away_score' => 'required',
+            'tournament_id' => 'required',
+            'home_club_id' => 'required',
+            'away_club_id' => 'required',
         ]);
 
-        $obj = new StartType();
-        $obj->name = $request->name;
 
-        if($request->has('v_desc')){
-            $obj->v_desc = $request->v_desc;
-        }
+        $obj = new Match();
+        $obj->match_date = $request->match_date;
+        $obj->home_score = $request->home_score;
+        $obj->away_score = $request->away_score;
+        $obj->tournament_id = $request->tournament_id;
+        $obj->home_club_id = $request->home_club_id;
+        $obj->away_club_id = $request->away_club_id;
 
-        if($request->has('picture')){
-            $obj->picture = $request->picture;
+        if($request->has('url_detail')){
+            $obj->url_detail = $request->url_detail;
         }
 
         $obj->save();
 
-        return $this->createDataResponse($obj);
+        $returnObj = Match::with(['tournament','home_club','away_club'])
+            ->where('home_club_id',$request->user()->club_id)
+            ->orWhere('away_club_id',$request->user()->club_id)
+            ->find($obj->id);
+
+        return $this->createDataResponse($returnObj);
     }
 
-    public function edit(Request $request,$id){
-        $obj = StartType::find($id);
+    public function editMe(Request $request,$id){
+        $obj = Match::find($id);
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
 
-        if($request->has('name')){
-            $obj->name = $request->name;
+        if($request->has('match_date')){
+            $obj->match_date = $request->match_date;
         }
 
-        if($request->has('v_desc')){
-            $obj->v_desc = $request->v_desc;
+        if($request->has('home_score')){
+            $obj->home_score = $request->home_score;
         }
 
-        if($request->has('picture')){
-            $obj->picture = $request->picture;
+        if($request->has('away_score')){
+            $obj->away_score = $request->away_score;
+        }
+
+        if($request->has('tournament_id')){
+            $obj->tournament_id = $request->tournament_id;
+        }
+
+        if($request->has('home_club_id')){
+            $obj->home_club_id = $request->home_club_id;
+        }
+
+        if($request->has('away_club_id')){
+            $obj->away_club_id = $request->away_club_id;
+        }
+
+        if($request->has('url_detail')){
+            $obj->url_detail = $request->url_detail;
         }
 
         $obj->save();
         return $this->createSuccessResponse();
     }
 
-    public function delete($id){
-        $obj = StartType::find($id);
+    public function deleteMe($id){
+        $obj = Match::find($id);
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
-
-        $obj->active = config('active.INACTIVE');
-        $obj->save();
+        $obj->delete();
         return $this->createSuccessResponse();
     }
 
