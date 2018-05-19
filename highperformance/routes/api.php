@@ -50,7 +50,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::get('chances/me/match/{matchId}', 'ChanceController@allByMatch');
     Route::post('chance/me', 'ChanceController@addMe');
     Route::put('chance/me/{id}', 'ChanceController@editMe');
-    Route::delete('chances/me/{id}', 'ChanceController@deleteMe');
+    Route::delete('chance/me/{id}', 'ChanceController@deleteMe');
 
 
 
