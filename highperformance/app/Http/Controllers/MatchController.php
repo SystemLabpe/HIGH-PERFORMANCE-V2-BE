@@ -14,6 +14,17 @@ use Log;
 
 class MatchController extends Controller {
 
+    public function find($id){
+        $obj = Match::with(['tournament','home_club','away_club'])
+            ->find($id);
+
+        if($obj){
+            return $this->createDataResponse($obj);
+        }
+
+        return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
+    }
+
     public function allMe(Request $request){
         $list = Match::with(['tournament','home_club','away_club'])
             ->where('club_id',$request->user()->club_id)

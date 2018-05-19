@@ -42,19 +42,17 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::put('tournament/me/{id}', 'TournamentController@editMe');
     Route::delete('tournament/me/{id}', 'TournamentController@deleteMe');
 
+    Route::get('match/{id}', 'MatchController@find');
     Route::get('matches/me', 'MatchController@allMe');
     Route::post('match/me', 'MatchController@addMe');
     Route::put('match/me/{id}', 'MatchController@editMe');
     Route::delete('match/me/{id}', 'MatchController@deleteMe');
 
+    Route::get('chance/{id}', 'ChanceController@find');
     Route::get('chances/me/match/{matchId}', 'ChanceController@allByMatch');
     Route::post('chance/me', 'ChanceController@addMe');
     Route::put('chance/me/{id}', 'ChanceController@editMe');
     Route::delete('chance/me/{id}', 'ChanceController@deleteMe');
-
-
-
-
 
 });
 

@@ -14,6 +14,20 @@ use Log;
 
 class ChanceController extends Controller{
 
+    public function find($id){
+        $obj = Chance::with([
+            'match','stopped_ball','start_type','field_zone','initial_penetration','player_position',
+            'field_area','invation_level','numerical_balance','possession_pass','penetrating_pass','progression_type',
+            'pentagon_completion','previous_action','completion_action','penultimate_field_zone','last_field_zone'])
+            ->find($id);
+
+        if($obj){
+            return $this->createDataResponse($obj);
+        }
+
+        return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
+    }
+
     public function allByMatch($matchId){
         $list = Chance::with([
             'match','stopped_ball','start_type','field_zone','initial_penetration','player_position',
