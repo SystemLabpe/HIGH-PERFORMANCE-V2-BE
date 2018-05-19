@@ -21,6 +21,7 @@ class TournamentController extends Controller{
                 $query
                     ->where('tournament_club.rival_club_id',$myClubId);
             }])
+            ->where('club_id',$request->user()->club_id)
             ->get();
 
         if(count($list)>0){

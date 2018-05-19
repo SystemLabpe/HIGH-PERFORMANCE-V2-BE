@@ -8,7 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Chance;
 use App\Club;
+use App\Match;
 use Illuminate\Http\Request;
 use Log;
 
@@ -132,6 +134,11 @@ class ClubController extends Controller{
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
         $club->tournaments()->sync([]);
+
+//        Chance::where()
+//
+//        Match::select('id');
+
         $club->delete();
         return $this->createSuccessResponse();
     }
