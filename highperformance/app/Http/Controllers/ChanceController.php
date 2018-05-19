@@ -3,20 +3,23 @@
  * Created by PhpStorm.
  * User: josue
  * Date: 17/05/2018
- * Time: 3:38 PM
+ * Time: 8:32 PM
  */
 
 namespace App\Http\Controllers;
 
-use App\Match;
+use App\Chance;
 use Illuminate\Http\Request;
 use Log;
 
-class MatchController extends Controller {
+class ChanceController extends Controller{
 
-    public function allMe(Request $request){
-        $list = Match::with(['tournament','home_club','away_club'])
-            ->where('club_id',$request->user()->club_id)
+    public function allByMatch($matchId){
+        $list = Chance::with([
+            'match','stopped_ball','start_type','field_zone','initial_penetration','player_position',
+            'field_area','invation_level','numerical_balance','possession_pass','penetrating_pass','progression_type',
+            'pentagon_completion','previous_action','completion_action','penultimate_field_zone','last_field_zone'])
+            ->where('match_id',$matchId)
             ->get();
 
         if(count($list)>0){
@@ -28,23 +31,19 @@ class MatchController extends Controller {
 
     public function addMe(Request $request){
         $request->validate([
-            'match_date' => 'required',
-            'home_score' => 'required',
-            'away_score' => 'required',
-            'tournament_id' => 'required',
-            'home_club_id' => 'required',
-            'away_club_id' => 'required',
+            'is_home' => 'required',
+            'chance_type' => 'required',
+            'chance_minute' => 'required',
+            'is_goal' => 'required',
+            'match_id' => 'required'
         ]);
 
-
-        $obj = new Match();
-        $obj->match_date = $request->match_date;
-        $obj->home_score = $request->home_score;
-        $obj->away_score = $request->away_score;
-        $obj->tournament_id = $request->tournament_id;
-        $obj->club_id = $request->user()->club_id;
-        $obj->home_club_id = $request->home_club_id;
-        $obj->away_club_id = $request->away_club_id;
+        $obj = new Chance();
+        $obj->is_home = $request->is_home;
+        $obj->chance_type = $request->chance_type;
+        $obj->chance_minute = $request->chance_minute;
+        $obj->is_goal = $request->is_goal;
+        $obj->match_id = $request->match_id;
 
         if($request->has('url_detail')){
             $obj->url_detail = $request->url_detail;
@@ -52,7 +51,10 @@ class MatchController extends Controller {
 
         $obj->save();
 
-        $returnObj = Match::with(['tournament','home_club','away_club'])
+        $returnObj = Chance::with([
+            'match','stopped_ball','start_type','field_zone','initial_penetration','player_position',
+            'field_area','invation_level','numerical_balance','possession_pass','penetrating_pass','progression_type',
+            'pentagon_completion','previous_action','completion_action','penultimate_field_zone','last_field_zone'])
             ->find($obj->id);
 
         return $this->createDataResponse($returnObj);

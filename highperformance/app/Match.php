@@ -21,6 +21,10 @@ class Match extends Model{
         return $this->belongsTo('App\Tournament');
     }
 
+    public function club(){
+        return $this->belongsTo('App\Club','club_id');
+    }
+
     public function home_club(){
         return $this->belongsTo('App\Club','home_club_id');
     }

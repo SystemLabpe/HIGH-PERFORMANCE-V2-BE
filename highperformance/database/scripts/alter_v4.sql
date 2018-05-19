@@ -53,6 +53,7 @@ CREATE TABLE `hp_db`.`matches` (
   `home_score` VARCHAR(200) NOT NULL,
   `away_score` VARCHAR(200) NOT NULL,
   `tournament_id` int(10) unsigned NOT NULL,
+  `club_id` int(10) unsigned NOT NULL,
   `home_club_id` int(10) unsigned NOT NULL,
   `away_club_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -64,6 +65,11 @@ CREATE TABLE `hp_db`.`matches` (
   CONSTRAINT `tournament_match_fk`
     FOREIGN KEY (`tournament_id`)
     REFERENCES `hp_db`.`tournaments` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `club_match_fk`
+    FOREIGN KEY (`club_id`)
+    REFERENCES `hp_db`.`clubs` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `hclub_match_fk`
@@ -90,7 +96,7 @@ CREATE TABLE `hp_db`.`chances` (
   `assisted_player` varchar(255) NULL,
   `scored_player` varchar(255) NULL,
   
-  `match_id` int(10) unsigned NULL,
+  `match_id` int(10) unsigned NOT NULL,
   
   `stopped_ball_id` int(10) unsigned NULL,
   
