@@ -55,11 +55,11 @@ class Chance extends Model{
     }
 
     public function possession_pass(){
-        return $this->belongsTo('App\PossessionPass','possession_pass_id');
+        return $this->belongsTo('App\PossessionPass','possession_passes_id');
     }
 
     public function penetrating_pass(){
-        return $this->belongsTo('App\PenetratingPass','penetrating_pass_id');
+        return $this->belongsTo('App\PenetratingPass','penetrating_passes_id');
     }
 
     public function progression_type(){
