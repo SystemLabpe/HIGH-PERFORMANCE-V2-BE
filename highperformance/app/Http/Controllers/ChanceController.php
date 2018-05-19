@@ -34,6 +34,7 @@ class ChanceController extends Controller{
             'field_area','invation_level','numerical_balance','possession_pass','penetrating_pass','progression_type',
             'pentagon_completion','previous_action','completion_action','penultimate_field_zone','last_field_zone'])
             ->where('match_id',$matchId)
+            ->orderBy('chance_minute','ASC')
             ->get();
 
         if(count($list)>0){
