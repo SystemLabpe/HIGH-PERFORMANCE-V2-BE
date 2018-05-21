@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Chance;
 use App\Match;
 use Illuminate\Http\Request;
 use Log;
@@ -112,6 +113,10 @@ class MatchController extends Controller {
         if(!$obj){
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
+
+        Chance::where('match_id',$id)
+            ->delete();
+
         $obj->delete();
         return $this->createSuccessResponse();
     }

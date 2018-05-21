@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Chance;
+use App\Match;
 use App\Tournament;
 use Illuminate\Http\Request;
 use Log;
@@ -102,6 +104,17 @@ class TournamentController extends Controller{
             return $this->createErrorResponse('Not found',config('customErrors.ENTITY_NOT_FOUND'));
         }
         $obj->clubs()->sync([]);
+
+
+        Chance::whereHas('match', function ($query) use($id){
+            $query->where('tournament_id',$id);
+        })
+            ->delete();
+
+        Match::where('tournament_id',$id)
+            ->delete();
+
+
         $obj->delete();
         return $this->createSuccessResponse();
     }

@@ -135,9 +135,15 @@ class ClubController extends Controller{
         }
         $club->tournaments()->sync([]);
 
-//        Chance::where()
-//
-//        Match::select('id');
+        Chance::whereHas('match', function ($query) use($id){
+            $query->where('home_club_id',$id);
+            $query->orWhere('away_club_id',$id);
+            })
+            ->delete();
+
+        Match::where('home_club_id',$id)
+            ->orWhere('away_club_id',$id)
+            ->delete();
 
         $club->delete();
         return $this->createSuccessResponse();
