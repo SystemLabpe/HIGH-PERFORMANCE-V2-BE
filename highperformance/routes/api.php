@@ -32,6 +32,8 @@ Route::namespace('Auth')->group(function () {
 
 //USER
 Route::middleware(['auth:api','scope:user'])->group(function () {
+
+    Route::get('clubs/rivals/tournament/{tournamentId}', 'ClubController@rivalsByTournament');
     Route::get('clubs/rivals', 'ClubController@allRivals');
     Route::post('clubs/rival', 'ClubController@addRival');
     Route::put('clubs/rival/{id}', 'ClubController@editRival');

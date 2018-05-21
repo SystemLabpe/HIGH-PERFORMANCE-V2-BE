@@ -136,8 +136,8 @@ class ClubController extends Controller{
         $club->tournaments()->sync([]);
 
         Chance::whereHas('match', function ($query) use($id){
-            $query->where('home_club_id',$id);
-            $query->orWhere('away_club_id',$id);
+            $query->where('home_club_id',$id)
+                  ->orWhere('away_club_id',$id);
             })
             ->delete();
 
@@ -147,5 +147,22 @@ class ClubController extends Controller{
 
         $club->delete();
         return $this->createSuccessResponse();
+    }
+
+    public function rivalsByTournament($tournamentId){
+//        $clubs = Club::where('active',config('active.ACTIVE'))
+//            ->where('rival_club_id',$request->user()->club_id)
+//            ->get();
+
+        $clubs = Club::whereHas('tournaments', function ($query) use($tournamentId){
+                $query->where('id',$tournamentId);
+            })
+            ->get();
+
+        if(count($clubs)>0){
+            return $this->createDataResponse($clubs);
+        }
+
+        return $this->createErrorResponse('Empty list',config('customErrors.NO_LIST_RESULTS'));
     }
 }
