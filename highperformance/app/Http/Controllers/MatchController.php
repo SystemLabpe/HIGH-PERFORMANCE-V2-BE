@@ -105,7 +105,11 @@ class MatchController extends Controller {
         }
 
         $obj->save();
-        return $this->createSuccessResponse();
+
+        $returnObj = Match::with(['tournament','home_club','away_club'])
+            ->find($obj->id);
+
+        return $this->createDataResponse($returnObj);
     }
 
     public function deleteMe($id){

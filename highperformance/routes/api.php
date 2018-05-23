@@ -56,6 +56,9 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::put('chance/me/{id}', 'ChanceController@editMe');
     Route::delete('chance/me/{id}', 'ChanceController@deleteMe');
 
+
+    Route::get('report/test', 'ReportController@lastGameGeneralReport');
+
 });
 
 //ADMIN
