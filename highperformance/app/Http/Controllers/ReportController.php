@@ -205,9 +205,9 @@ class ReportController extends Controller {
 
         $chart = (object)array();
         $chart->type = 'radar';
-        $chart->options = (object)array();
-        $chart->options->responsive = true;
-        $chart->options->maintainAspectRatio = false;
+//        $chart->options = (object)array();
+//        $chart->options->responsive = true;
+//        $chart->options->maintainAspectRatio = false;
         if(is_null($percentageStartTypeArrayData) && is_null($percentageFieldZoneArrayData) && is_null($percentageInitialPenetrationArrayData) &&is_null($percentagePlayerPositionArrayData) ){
             $chart->data = null;
         }else{
