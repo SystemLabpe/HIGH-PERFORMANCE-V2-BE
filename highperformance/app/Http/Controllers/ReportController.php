@@ -307,7 +307,7 @@ class ReportController extends Controller {
         return $chart;
     }
 
-    public function homeLastGameReport(Request $request){
+    public function homeLastMatchReport(Request $request){
         $userClubId = $request->user()->club_id;
 
         $lastMatch = Match::
@@ -342,21 +342,28 @@ class ReportController extends Controller {
 
 
         $response =(object)array();
-        $response->initPossesion = (object)array();
-        $response->initPossesion->name = 'Inicio de la Posesión';
-        $response->initPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $response->reports = array();
 
-        $response->rivalInitSituation = (object)array();
-        $response->rivalInitSituation->name = 'Situación Inicial del Rival';
-        $response->rivalInitSituation->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $initPossesion = (object)array();
+        $initPossesion->name = 'Inicio de la Posesión';
+        $initPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        array_push($response->reports,$initPossesion);
 
-        $response->developmentPossesion = (object)array();
-        $response->developmentPossesion->name = 'Desarrollo de la Posesión';
-        $response->developmentPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $rivalInitSituation = (object)array();
+        $rivalInitSituation->name = 'Situación Inicial del Rival';
+        $rivalInitSituation->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        array_push($response->reports,$rivalInitSituation);
 
-        $response->endPossesion = (object)array();
-        $response->endPossesion->name = 'Finalización de la Posesión';
-        $response->endPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $developmentPossesion = (object)array();
+        $developmentPossesion->name = 'Desarrollo de la Posesión';
+        $developmentPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        array_push($response->reports,$developmentPossesion);
+
+        $endPossesion = (object)array();
+        $endPossesion->name = 'Finalización de la Posesión';
+        $endPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        array_push($response->reports,$endPossesion);
+
         return $this->createDataResponse($response);
     }
 

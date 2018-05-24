@@ -58,7 +58,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
 
 
     Route::get('report/test', 'ReportController@testReport');
-    Route::get('report/lastgame/general', 'ReportController@homeLastGameReport');
+    Route::get('report/lastmatch/general', 'ReportController@homeLastMatchReport');
 
 
 });
