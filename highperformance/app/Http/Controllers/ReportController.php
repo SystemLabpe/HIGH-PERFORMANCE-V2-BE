@@ -204,7 +204,7 @@ class ReportController extends Controller {
         $percentagePlayerPositionArrayData = $this->getMajorPercentageData($homePlayerPositionData,$awayPlayerPositionData);
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 //        $chart->options = (object)array();
 //        $chart->options->responsive = true;
 //        $chart->options->maintainAspectRatio = false;
