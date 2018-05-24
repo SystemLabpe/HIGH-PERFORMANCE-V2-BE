@@ -212,6 +212,9 @@ class ReportController extends Controller {
 
             $chart->data->labels = array();
             $chart->data->datasets = array();
+            $chart->data->options = (object)array();
+            $chart->data->options->responsive = true;
+            $chart->data->options->maintainAspectRatio = false;
 
             $localDataset = (object)array();
             $localDataset->label = 'Local';
@@ -346,22 +349,22 @@ class ReportController extends Controller {
 
         $initPossesion = (object)array();
         $initPossesion->name = 'Inicio de la Posesión';
-        $initPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $initPossesion->chart = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
         array_push($response->reports,$initPossesion);
 
         $rivalInitSituation = (object)array();
         $rivalInitSituation->name = 'Situación Inicial del Rival';
-        $rivalInitSituation->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $rivalInitSituation->chart = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
         array_push($response->reports,$rivalInitSituation);
 
         $developmentPossesion = (object)array();
         $developmentPossesion->name = 'Desarrollo de la Posesión';
-        $developmentPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $developmentPossesion->chart = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
         array_push($response->reports,$developmentPossesion);
 
         $endPossesion = (object)array();
         $endPossesion->name = 'Finalización de la Posesión';
-        $endPossesion->data = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+        $endPossesion->chart = $this->initPossesionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
         array_push($response->reports,$endPossesion);
 
         return $this->createDataResponse($response);
