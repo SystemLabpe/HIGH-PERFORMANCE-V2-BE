@@ -57,7 +57,9 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::delete('chance/me/{id}', 'ChanceController@deleteMe');
 
 
-    Route::get('report/test', 'ReportController@lastGameGeneralReport');
+    Route::get('report/test', 'ReportController@testReport');
+    Route::get('report/lastgame/general', 'ReportController@homeLastGameReport');
+
 
 });
 
