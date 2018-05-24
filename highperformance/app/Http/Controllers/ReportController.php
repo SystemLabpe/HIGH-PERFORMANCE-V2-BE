@@ -205,6 +205,9 @@ class ReportController extends Controller {
 
         $chart = (object)array();
         $chart->type = 'radar';
+        $chart->options = (object)array();
+        $chart->options->responsive = true;
+        $chart->options->maintainAspectRatio = false;
         if(is_null($percentageStartTypeArrayData) && is_null($percentageFieldZoneArrayData) && is_null($percentageInitialPenetrationArrayData) &&is_null($percentagePlayerPositionArrayData) ){
             $chart->data = null;
         }else{
@@ -212,9 +215,6 @@ class ReportController extends Controller {
 
             $chart->data->labels = array();
             $chart->data->datasets = array();
-            $chart->data->options = (object)array();
-            $chart->data->options->responsive = true;
-            $chart->data->options->maintainAspectRatio = false;
 
             $localDataset = (object)array();
             $localDataset->label = 'Local';
