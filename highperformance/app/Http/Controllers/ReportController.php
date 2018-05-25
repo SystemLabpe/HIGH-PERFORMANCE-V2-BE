@@ -306,7 +306,7 @@ class ReportController extends Controller {
             $dataset3 = (object)array();
             $dataset3->label = 'Goles del Visitante';
             $dataset3->backgroundColor = 'rgb(36, 37, 47)';
-            $dataset3->stack = 'local';
+            $dataset3->stack = 'away';
             $dataset3->data = array();
             array_push($dataset3->data ,15);
             array_push($dataset3->data ,25);
@@ -314,7 +314,7 @@ class ReportController extends Controller {
             $dataset4 = (object)array();
             $dataset4->label = 'No Goles del Visitante';
             $dataset4->backgroundColor = 'rgba(36, 37, 47, 0.2)';
-            $dataset4->stack = 'local';
+            $dataset4->stack = 'away';
             $dataset4->data = array();
             array_push($dataset4->data ,30);
             array_push($dataset4->data ,40);
