@@ -339,12 +339,13 @@ class ReportController extends Controller {
         $userClubId = $request->user()->club_id;
 
         $lastMatch = Match::
-        where('club_id',$userClubId)
-            ->where(function($query)use($userClubId){
-                return $query
-                    ->where('home_club_id',$userClubId)
-                    ->orWhere('away_club_id',$userClubId);
-            })
+            where('club_id',$userClubId)
+                ->where(function($query)use($userClubId){
+                    return $query
+                        ->where('home_club_id',$userClubId)
+                        ->orWhere('away_club_id',$userClubId);
+                })
+            ->with(['home_club','away_club'])
             ->orderBy('match_date','ASC')
             ->first();
 
@@ -370,6 +371,8 @@ class ReportController extends Controller {
 
 
         $response =(object)array();
+        $response->match = $lastMatch;
+
         $response->reports = array();
 
         $ballRecoveredZone = (object)array();
