@@ -571,7 +571,7 @@ class ReportController extends Controller {
 
         $reportArrayData = $this->getStackedGoalReportArrayDataCount($goalReportArrayData,$NoGoalReportArrayData);
 
-        return $reportArrayData;
+//        return $reportArrayData;
 
         $chart = (object)array();
         $chart->type = 'bar';
