@@ -264,7 +264,7 @@ class ReportController extends Controller {
                 }
             }
             if(!$is_included){
-                array_push($reportArrayData, (object) array('id' => $homeData->id,'name' => $homeData->name, 'homePercentage' => $homeData->percentage,'awayPercentage' => null));
+                array_push($reportArrayData, (object) array('id' => $homeData->id,'name' => $homeData->name, 'homePercentage' => $homeData->percentage,'awayPercentage' => 0));
             }
         }
         foreach ($awayArrayData as $awayData){
@@ -276,7 +276,7 @@ class ReportController extends Controller {
                 }
             }
             if(!$is_included){
-                array_push($reportArrayData, (object) array('id' => $awayData->id,'name' => $awayData->name, 'homePercentage' => null,'awayPercentage' => $awayData->percentage));
+                array_push($reportArrayData, (object) array('id' => $awayData->id,'name' => $awayData->name, 'homePercentage' => 0,'awayPercentage' => $awayData->percentage));
             }
         }
 
@@ -296,7 +296,7 @@ class ReportController extends Controller {
                 }
             }
             if(!$is_included){
-                array_push($reportArrayData, (object) array('id' => $homeData->id,'name' => $homeData->name, 'homeCount' => $homeData->count,'awayCount' => null));
+                array_push($reportArrayData, (object) array('id' => $homeData->id,'name' => $homeData->name, 'homeCount' => $homeData->count,'awayCount' => 0));
             }
         }
         foreach ($awayArrayData as $awayData){
@@ -308,7 +308,7 @@ class ReportController extends Controller {
                 }
             }
             if(!$is_included){
-                array_push($reportArrayData, (object) array('id' => $awayData->id,'name' => $awayData->name, 'homeCount' => null,'awayCount' => $awayData->count));
+                array_push($reportArrayData, (object) array('id' => $awayData->id,'name' => $awayData->name, 'homeCount' => 0,'awayCount' => $awayData->count));
             }
         }
 
@@ -331,7 +331,7 @@ class ReportController extends Controller {
             if(!$is_included){
                 array_push($stackedGoalReportArrayData, (object) array('id' => $goalData->id,'name' => $goalData->name,
                                                                        'homeGoalCount' => $goalData->homeCount,'awayGoalCount' => $goalData->awayCount,
-                                                                       'homeNoGoalCount' => null,'awayNoGoalCount' => null));
+                                                                       'homeNoGoalCount' => 0,'awayNoGoalCount' => 0));
             }
         }
         foreach ($noGoalArrayData as $noGoalData){
@@ -344,7 +344,7 @@ class ReportController extends Controller {
             }
             if(!$is_included){
                 array_push($stackedGoalReportArrayData, (object) array('id' => $noGoalData->id,'name' => $noGoalData->name,
-                                                                       'homeGoalCount' => null,'awayGoalCount' => null,
+                                                                       'homeGoalCount' => 0,'awayGoalCount' => 0,
                                                                        'homeNoGoalCount' => $noGoalData->homeCount,'awayNoGoalCount' => $noGoalData->awayCount));
             }
         }
@@ -571,7 +571,7 @@ class ReportController extends Controller {
 
         $reportArrayData = $this->getStackedGoalReportArrayDataCount($goalReportArrayData,$NoGoalReportArrayData);
 
-//        return $reportArrayData;
+        return $reportArrayData;
 
         $chart = (object)array();
         $chart->type = 'bar';
