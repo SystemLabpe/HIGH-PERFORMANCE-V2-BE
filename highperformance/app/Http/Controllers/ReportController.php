@@ -197,7 +197,7 @@ class ReportController extends Controller {
 
         $reportArrayData = $this->getReportArrayData($homePreviousActionArrayData,$awayPreviousActionArrayData);
 
-        return $reportArrayData;
+//        return $reportArrayData;
 
         $chart = (object)array();
         $chart->type = 'radar';
