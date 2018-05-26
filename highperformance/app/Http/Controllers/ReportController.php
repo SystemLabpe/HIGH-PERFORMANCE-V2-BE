@@ -20,6 +20,76 @@ class ReportController extends Controller {
     //Local
     //Visitante
 
+    //CHANCE TYPE BY GOL / NO GOL
+    private function chanceTypeGoalArrayDataCount($chancesIds){
+        $data = Chance::
+        select('chance_type AS name',DB::raw('COUNT(*) AS count'))
+            ->whereIn('id', $chancesIds)
+            //TODO Add is goal / is not goal in config file
+            ->where('is_goal', 1)
+            ->groupBy('chance_type')
+            ->get();
+
+        $returnData = array();
+
+        foreach ($data as $obj){
+            //TODO Add chance type in config file
+            if($obj->name === 1){
+                array_push($returnData, (object) array('id' => $obj->name,'name' => 'Jugada', 'count' => $obj->count));
+            }else{
+                array_push($returnData, (object) array('id' => $obj->name,'name' => 'Pelota parada', 'count' => $obj->count));
+            }
+        }
+
+        return $returnData;
+    }
+
+    private function chanceTypeNoGoalArrayDataCount($chancesIds){
+        $data = Chance::
+        select('chance_type AS name',DB::raw('COUNT(*) AS count'))
+            ->whereIn('id', $chancesIds)
+            //TODO Add is goal / is not goal in config file
+            ->where('is_goal', 0)
+            ->groupBy('chance_type')
+            ->get();
+
+        $returnData = array();
+
+        foreach ($data as $obj){
+            //TODO Add chance type in config file
+            if($obj->name === 1){
+                array_push($returnData, (object) array('id' => $obj->name,'name' => 'Jugada', 'count' => $obj->count));
+            }else{
+                array_push($returnData, (object) array('id' => $obj->name,'name' => 'Pelota parada', 'count' => $obj->count));
+            }
+        }
+
+        return $returnData;
+    }
+
+
+    //GOAL PERCENTAGE
+    private function goalPercentageArrayData($chancesIds,$totalChances){
+        $data = Chance::
+        select('is_goal AS id','is_goal AS name', DB::raw('ROUND(100*COUNT(is_goal)/'.$totalChances.',2) AS percentage'))
+            ->whereIn('chances.id', $chancesIds)
+            ->groupBy('is_goal')
+            ->orderByRaw('percentage DESC')
+            ->get();
+
+        $returnData = array();
+        foreach ($data as $obj){
+            //TODO Add chance type in config file
+            if($obj->name === 0){
+                array_push($returnData, (object) array('id' => $obj->id,'name' => 'No Gol', 'percentage' => $obj->percentage));
+            }else{
+                array_push($returnData, (object) array('id' => $obj->id,'name' => 'Gol', 'percentage' => $obj->percentage));
+            }
+        }
+
+        return $returnData;
+    }
+
 
     //BALL RECOVERED
     private function ballRecoveredArrayData($chancesIds, $totalChances){
@@ -29,6 +99,7 @@ class ReportController extends Controller {
             ->whereIn('chances.id', $chancesIds)
             //TODO Add array variables in config file
             ->whereIn('chances.start_type_id',[6,7,8])
+            ->where('field_zones.active',config('active.ACTIVE'))
             ->groupBy('chances.field_zone_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -44,6 +115,7 @@ class ReportController extends Controller {
             ->whereIn('chances.id', $chancesIds)
             //TODO Add is goal / is not goal in config file
             ->where('chances.is_goal', 1)
+            ->where('completion_actions.active',config('active.ACTIVE'))
             ->groupBy('chances.completion_action_id')
             ->orderByRaw('count DESC')
             ->get();
@@ -58,6 +130,7 @@ class ReportController extends Controller {
             ->whereIn('chances.id', $chancesIds)
             //TODO Add is goal / is not goal in config file
             ->where('chances.is_goal', 0)
+            ->where('completion_actions.active',config('active.ACTIVE'))
             ->groupBy('chances.completion_action_id')
             ->orderByRaw('count DESC')
             ->get();
@@ -66,12 +139,17 @@ class ReportController extends Controller {
     }
 
 
+
+
+
+
     //INIT POSSESSION
     private function startTypeArrayData($chancesIds, $totalChances){
         $data = Chance::
         select('chances.start_type_id AS id','start_types.name AS name', DB::raw('ROUND(100*COUNT(chances.start_type_id)/'.$totalChances.',2) AS percentage'))
             ->join('start_types', 'start_types.id', '=', 'chances.start_type_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('start_types.active',config('active.ACTIVE'))
             ->groupBy('chances.start_type_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -84,6 +162,7 @@ class ReportController extends Controller {
         select('chances.field_zone_id AS id','field_zones.name AS name', DB::raw('ROUND(100*COUNT(chances.field_zone_id)/'.$totalChances.',2) AS percentage'))
             ->join('field_zones', 'field_zones.id', '=', 'chances.field_zone_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('field_zones.active',config('active.ACTIVE'))
             ->groupBy('chances.field_zone_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -96,6 +175,7 @@ class ReportController extends Controller {
         select('chances.initial_penetration_id AS id','initial_penetrations.name AS name', DB::raw('ROUND(100*COUNT(chances.initial_penetration_id)/'.$totalChances.',2) AS percentage'))
             ->join('initial_penetrations', 'initial_penetrations.id', '=', 'chances.initial_penetration_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('initial_penetrations.active',config('active.ACTIVE'))
             ->groupBy('chances.initial_penetration_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -108,6 +188,7 @@ class ReportController extends Controller {
         select('chances.player_position_id AS id','player_positions.name AS name', DB::raw('ROUND(100*COUNT(chances.player_position_id)/'.$totalChances.',2) AS percentage'))
             ->join('player_positions', 'player_positions.id', '=', 'chances.player_position_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('player_positions.active',config('active.ACTIVE'))
             ->groupBy('chances.player_position_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -121,6 +202,7 @@ class ReportController extends Controller {
         select('chances.field_area_id AS id','field_areas.name AS name', DB::raw('ROUND(100*COUNT(chances.field_area_id)/'.$totalChances.',2) AS percentage'))
             ->join('field_areas', 'field_areas.id', '=', 'chances.field_area_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('field_areas.active',config('active.ACTIVE'))
             ->groupBy('chances.field_area_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -133,6 +215,7 @@ class ReportController extends Controller {
         select('chances.invation_level_id AS id','invation_levels.name AS name', DB::raw('ROUND(100*COUNT(chances.invation_level_id)/'.$totalChances.',2) AS percentage'))
             ->join('invation_levels', 'invation_levels.id', '=', 'chances.invation_level_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('invation_levels.active',config('active.ACTIVE'))
             ->groupBy('chances.invation_level_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -145,6 +228,7 @@ class ReportController extends Controller {
         select('chances.numerical_balance_id AS id','numerical_balances.name AS name', DB::raw('ROUND(100*COUNT(chances.numerical_balance_id)/'.$totalChances.',2) AS percentage'))
             ->join('numerical_balances', 'numerical_balances.id', '=', 'chances.numerical_balance_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('numerical_balances.active',config('active.ACTIVE'))
             ->groupBy('chances.numerical_balance_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -159,6 +243,7 @@ class ReportController extends Controller {
         select('chances.possession_passes_id AS id','possession_passes.name AS name', DB::raw('ROUND(100*COUNT(chances.possession_passes_id)/'.$totalChances.',2) AS percentage'))
             ->join('possession_passes', 'possession_passes.id', '=', 'chances.possession_passes_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('possession_passes.active',config('active.ACTIVE'))
             ->groupBy('chances.possession_passes_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -171,6 +256,7 @@ class ReportController extends Controller {
         select('chances.penetrating_passes_id AS id','penetrating_passes.name AS name', DB::raw('ROUND(100*COUNT(chances.penetrating_passes_id)/'.$totalChances.',2) AS percentage'))
             ->join('penetrating_passes', 'penetrating_passes.id', '=', 'chances.penetrating_passes_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('penetrating_passes.active',config('active.ACTIVE'))
             ->groupBy('chances.penetrating_passes_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -183,6 +269,7 @@ class ReportController extends Controller {
         select('chances.progression_type_id AS id','progression_types.name AS name', DB::raw('ROUND(100*COUNT(chances.progression_type_id)/'.$totalChances.',2) AS percentage'))
             ->join('progression_types', 'progression_types.id', '=', 'chances.progression_type_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('progression_types.active',config('active.ACTIVE'))
             ->groupBy('chances.progression_type_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -196,6 +283,7 @@ class ReportController extends Controller {
         select('chances.pentagon_completion_id AS id','pentagon_completions.name AS name', DB::raw('ROUND(100*COUNT(chances.pentagon_completion_id)/'.$totalChances.',2) AS percentage'))
             ->join('pentagon_completions', 'pentagon_completions.id', '=', 'chances.pentagon_completion_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('pentagon_completions.active',config('active.ACTIVE'))
             ->groupBy('chances.pentagon_completion_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -208,6 +296,7 @@ class ReportController extends Controller {
         select('chances.previous_action_id AS id','previous_actions.name AS name', DB::raw('ROUND(100*COUNT(chances.previous_action_id)/'.$totalChances.',2) AS percentage'))
             ->join('previous_actions', 'previous_actions.id', '=', 'chances.previous_action_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('previous_actions.active',config('active.ACTIVE'))
             ->groupBy('chances.previous_action_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -220,6 +309,7 @@ class ReportController extends Controller {
         select('chances.completion_action_id AS id','completion_actions.name AS name', DB::raw('ROUND(100*COUNT(chances.completion_action_id)/'.$totalChances.',2) AS percentage'))
             ->join('completion_actions', 'completion_actions.id', '=', 'chances.completion_action_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('completion_actions.active',config('active.ACTIVE'))
             ->groupBy('chances.completion_action_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -232,6 +322,7 @@ class ReportController extends Controller {
         select('chances.penultimate_field_zone_id AS id','field_zones.name AS name', DB::raw('ROUND(100*COUNT(chances.penultimate_field_zone_id)/'.$totalChances.',2) AS percentage'))
             ->join('field_zones', 'field_zones.id', '=', 'chances.penultimate_field_zone_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('field_zones.active',config('active.ACTIVE'))
             ->groupBy('chances.penultimate_field_zone_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -244,6 +335,7 @@ class ReportController extends Controller {
         select('chances.last_field_zone_id AS id','field_zones.name AS name', DB::raw('ROUND(100*COUNT(chances.last_field_zone_id)/'.$totalChances.',2) AS percentage'))
             ->join('field_zones', 'field_zones.id', '=', 'chances.last_field_zone_id')
             ->whereIn('chances.id', $chancesIds)
+            ->where('field_zones.active',config('active.ACTIVE'))
             ->groupBy('chances.last_field_zone_id')
             ->orderByRaw('percentage DESC')
             ->get();
@@ -355,11 +447,18 @@ class ReportController extends Controller {
 
 
     //GENERAL - 1
-    private function golChancesGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
-        $homePreviousActionArrayData = $this->previousActionArrayData($homeChancesIds,$homeTotalChances);
-        $awayPreviousActionArrayData = $this->previousActionArrayData($awayChancesIds,$awayTotalChances);
+    private function chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeChanceTypeGoalArrayDataCount = $this->chanceTypeGoalArrayDataCount($homeChancesIds);
+        $awayChanceTypeGoalArrayDataCount = $this->chanceTypeGoalArrayDataCount($awayChancesIds);
 
-        $reportArrayData = $this->getReportArrayData($homePreviousActionArrayData,$awayPreviousActionArrayData);
+        $homeChanceTypeNoGoalArrayDataCount = $this->chanceTypeNoGoalArrayDataCount($homeChancesIds);
+        $awayChanceTypeNoGoalArrayDataCount = $this->chanceTypeNoGoalArrayDataCount($awayChancesIds);
+
+
+        $goalReportArrayData = $this->getReportArrayDataCount($homeChanceTypeGoalArrayDataCount,$awayChanceTypeGoalArrayDataCount);
+        $NoGoalReportArrayData = $this->getReportArrayDataCount($homeChanceTypeNoGoalArrayDataCount,$awayChanceTypeNoGoalArrayDataCount);;
+
+        $reportArrayData = $this->getStackedGoalReportArrayDataCount($goalReportArrayData,$NoGoalReportArrayData);
 
 //        return $reportArrayData;
 
@@ -381,65 +480,126 @@ class ReportController extends Controller {
         array_push($chart->options->scales->xAxes,$objStacked);
         array_push($chart->options->scales->yAxes,$objStacked);
 
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+
+            $chart->data->datasets = array();
+
+            $homeGoalDataset = (object)array();
+            $homeGoalDataset->label = 'Goles del Local';
+            $homeGoalDataset->backgroundColor = 'rgb(254, 199, 34)';
+            $homeGoalDataset->stack = 'home';
+            $homeGoalDataset->data = array();
+
+            $homeNoGoalCount = (object)array();
+            $homeNoGoalCount->label = 'No Goles del Local';
+            $homeNoGoalCount->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeNoGoalCount->stack = 'home';
+            $homeNoGoalCount->data = array();
+
+            $awayGoalCount = (object)array();
+            $awayGoalCount->label = 'Goles del Visitante';
+            $awayGoalCount->backgroundColor = 'rgb(36, 37, 47)';
+            $awayGoalCount->stack = 'away';
+            $awayGoalCount->data = array();
+
+            $awayNoGoalCount = (object)array();
+            $awayNoGoalCount->label = 'No Goles del Visitante';
+            $awayNoGoalCount->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayNoGoalCount->stack = 'away';
+            $awayNoGoalCount->data = array();
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeGoalDataset->data,$reportData->homeGoalCount);
+                array_push($homeNoGoalCount->data,$reportData->homeNoGoalCount);
+                array_push($awayGoalCount->data,$reportData->awayGoalCount);
+                array_push($awayNoGoalCount->data,$reportData->awayNoGoalCount);
+            }
 
 
-//        if(count($reportArrayData) == 0){
-//            $chart->data = null;
-//        }else{
-        $chart->data = (object)array();
-
-        $chart->data->labels = array();
-        array_push($chart->data->labels ,'Jugadas');
-        array_push($chart->data->labels ,'Pelota Parada');
-
-        $chart->data->datasets = array();
-
-        $dataset1 = (object)array();
-        $dataset1->label = 'Goles del Local';
-        $dataset1->backgroundColor = 'rgb(254, 199, 34)';
-        $dataset1->stack = 'local';
-        $dataset1->data = array();
-        array_push($dataset1->data ,10);
-        array_push($dataset1->data ,20);
-
-        $dataset2 = (object)array();
-        $dataset2->label = 'No Goles del Local';
-        $dataset2->backgroundColor = 'rgba(254, 199, 34, 0.2)';
-        $dataset2->stack = 'local';
-        $dataset2->data = array();
-        array_push($dataset2->data ,11);
-        array_push($dataset2->data ,21);
-
-        $dataset3 = (object)array();
-        $dataset3->label = 'Goles del Visitante';
-        $dataset3->backgroundColor = 'rgb(36, 37, 47)';
-        $dataset3->stack = 'away';
-        $dataset3->data = array();
-        array_push($dataset3->data ,15);
-        array_push($dataset3->data ,25);
-
-        $dataset4 = (object)array();
-        $dataset4->label = 'No Goles del Visitante';
-        $dataset4->backgroundColor = 'rgba(36, 37, 47, 0.2)';
-        $dataset4->stack = 'away';
-        $dataset4->data = array();
-        array_push($dataset4->data ,30);
-        array_push($dataset4->data ,40);
-
-
-        array_push($chart->data->datasets,$dataset1);
-        array_push($chart->data->datasets,$dataset2);
-        array_push($chart->data->datasets,$dataset3);
-        array_push($chart->data->datasets,$dataset4);
-//        }
+            array_push($chart->data->datasets,$homeGoalDataset);
+            array_push($chart->data->datasets,$homeNoGoalCount);
+            array_push($chart->data->datasets,$awayGoalCount);
+            array_push($chart->data->datasets,$awayNoGoalCount);
+        }
 
 
         return $chart;
     }
 
     //GENERAL - 2
-    private function golPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+    private function goalPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeGoalPercentageArrayData = $this->goalPercentageArrayData($homeChancesIds,$homeTotalChances);
+        $awayGoalPercentageArrayData = $this->goalPercentageArrayData($awayChancesIds,$awayTotalChances);
 
+        $reportArrayData = $this->getReportArrayData($homeGoalPercentageArrayData,$awayGoalPercentageArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'doughnut';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->options = (object)array();
+            $chart->options->responsive = true;
+            $chart->options->legend = (object)array();
+            $chart->options->legend->position = 'top';
+            $chart->options->animation = (object)array();
+            $chart->options->legend->animateScale = true;
+            $chart->options->legend->animateRotate = true;
+
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            array_push($chart->data->labels,['Goles Local', 'No Goles Local', 'Goles de Visitante', 'No Goles de Visitante']);
+
+
+
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->data = array();
+            $homeDataset->backgroundColor = array();
+            array_push($homeDataset->backgroundColor,['rgb(254, 199, 34)', 'rgba(254, 199, 34, 0.2)', 'rgb(36, 37, 47)', 'rgba(36, 37, 47, 0.2)']);
+            $homeDataset->label = 'home';
+
+            $awayDataset = (object)array();
+            $awayDataset->data = array();
+            $awayDataset->backgroundColor = array();
+            array_push($awayDataset->backgroundColor,['rgb(254, 199, 34)', 'rgba(254, 199, 34, 0.2)', 'rgb(36, 37, 47)', 'rgba(36, 37, 47, 0.2)']);
+            $awayDataset->label = 'away';
+
+            $homeGoal = null;
+            $homeNoGoal = null;
+            $awayGoal = null;
+            $awayNoGoal = null;
+            foreach ($reportArrayData as $reportData){
+                if($reportData->id == 1){
+                    $homeGoal = $reportData->homePercentage;
+                    $awayGoal = $reportData->awayPercentage;
+                }else{
+                    $homeNoGoal = $reportData->homePercentage;
+                    $awayNoGoal = $reportData->awayPercentage;
+                }
+
+            }
+
+            array_push($homeDataset->data,[$homeGoal, $homeNoGoal, 0, 0]);
+            array_push($awayDataset->data,[0, 0, $awayGoal, $awayNoGoal]);
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
     }
 
     //GENERAL - 3
@@ -597,8 +757,6 @@ class ReportController extends Controller {
             $chart->data = (object)array();
 
             $chart->data->labels = array();
-//            array_push($chart->data->labels ,'Jugadas');
-//            array_push($chart->data->labels ,'Pelota Parada');
 
             $chart->data->datasets = array();
 
@@ -607,36 +765,24 @@ class ReportController extends Controller {
             $homeGoalDataset->backgroundColor = 'rgb(254, 199, 34)';
             $homeGoalDataset->stack = 'local';
             $homeGoalDataset->data = array();
-//            array_push($homeGoalDataset->data ,10);
-//            array_push($homeGoalDataset->data ,20);
 
             $homeNoGoalCount = (object)array();
             $homeNoGoalCount->label = 'No Goles del Local';
             $homeNoGoalCount->backgroundColor = 'rgba(254, 199, 34, 0.2)';
             $homeNoGoalCount->stack = 'local';
             $homeNoGoalCount->data = array();
-//            array_push($homeNoGoalCount->data ,11);
-//            array_push($homeNoGoalCount->data ,21);
 
             $awayGoalCount = (object)array();
             $awayGoalCount->label = 'Goles del Visitante';
             $awayGoalCount->backgroundColor = 'rgb(36, 37, 47)';
             $awayGoalCount->stack = 'away';
             $awayGoalCount->data = array();
-//            array_push($awayGoalCount->data ,15);
-//            array_push($awayGoalCount->data ,25);
 
             $awayNoGoalCount = (object)array();
             $awayNoGoalCount->label = 'No Goles del Visitante';
             $awayNoGoalCount->backgroundColor = 'rgba(36, 37, 47, 0.2)';
             $awayNoGoalCount->stack = 'away';
             $awayNoGoalCount->data = array();
-//            array_push($awayNoGoalCount->data ,30);
-//            array_push($awayNoGoalCount->data ,40);
-
-            //        (object) array('id' => $goalData->id,'name' => $goalData->name,
-//            'homeGoalCount' => $goalData->homeCount,'awayGoalCount' => $goalData->awayCount,
-//            'homeNoGoalCount' => $noGoalData->homeCount,'awayNoGoalCount' => $noGoalData->awayCount)
 
             foreach ($reportArrayData as $reportData){
                 array_push($chart->data->labels,$reportData->name);
@@ -658,8 +804,61 @@ class ReportController extends Controller {
     }
 
     //GENERAL - 6
-    private function endZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
-        return null;
+    private function lastFieldZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $lastFieldZoneRivalArrayData = $this->lastFieldZoneArrayData($awayChancesIds,$awayTotalChances);
+        $lastFieldZoneRivalArrayData = $this->lastFieldZoneArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($lastFieldZoneRivalArrayData,$lastFieldZoneRivalArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->awayPercentage);
+                array_push($awayDataset->data,$reportData->homePercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
     }
 
     //HOME - GENERAL - LAST MATCH
@@ -703,45 +902,46 @@ class ReportController extends Controller {
         $response->reports = array();
 
         //GENERAL - 1
-        $golChances = (object)array();
-        $golChances->name = 'Tipos de ocaciones vs Gol';
-//        $golChances->chart = $this->golChancesGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
-        $golChances->chart = null;
-        array_push($response->reports,$golChances);
+        $chanceType = (object)array();
+        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $chanceType->chart = null;
+        array_push($response->reports,$chanceType);
 
         //GENERAL - 2
-        $golPercentage = (object)array();
-        $golPercentage->name = 'Porcentaje de Gol';
-//        $golPercentage->chart = $this->golPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
-        $golPercentage->chart = null;
-        array_push($response->reports,$golPercentage);
+        $goalPercentage = (object)array();
+        $goalPercentage->name = 'Porcentaje de Gol';
+        $goalPercentage->chart = $this->goalPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $goalPercentage->chart = null;
+        array_push($response->reports,$goalPercentage);
 
         //GENERAL - 3
         $ballRecoveredZone = (object)array();
         $ballRecoveredZone->name = 'Zona donde más se recupera el balón';
-//        $ballRecoveredZone->chart = $this->ballRecoveredZoneGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
-        $ballRecoveredZone->chart = null;
+        $ballRecoveredZone->chart = $this->ballRecoveredZoneGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $ballRecoveredZone->chart = null;
         array_push($response->reports,$ballRecoveredZone);
 
         //GENERAL - 4
         $previousAction = (object)array();
         $previousAction->name = 'Acción previa a la finalización de la jugada';
-//        $previousAction->chart = $this->previousActionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
-        $previousAction->chart =null;
+        $previousAction->chart = $this->previousActionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $previousAction->chart =null;
         array_push($response->reports,$previousAction);
 
         //GENERAL - 5
         $completionAction = (object)array();
         $completionAction->name = 'Finalización de la jugada';
         $completionAction->chart = $this->completionActionGeneralReport($homeChancesIds, $awayChancesIds);
+//        $completionAction->chart = null;
         array_push($response->reports,$completionAction);
 
         //GENERAL - 6
-        $endZoneRival = (object)array();
-        $endZoneRival->name = 'Zona donde terminan las jugadas rivales';
-//        $endZoneRival->chart = $this->endZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
-        $endZoneRival->chart = null;
-        array_push($response->reports,$endZoneRival);
+        $lastFieldZoneRival = (object)array();
+        $lastFieldZoneRival->name = 'Zona donde terminan las jugadas rivales';
+        $lastFieldZoneRival->chart = $this->lastFieldZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $lastFieldZoneRival->chart = null;
+        array_push($response->reports,$lastFieldZoneRival);
 
         return $this->createDataResponse($response);
     }
