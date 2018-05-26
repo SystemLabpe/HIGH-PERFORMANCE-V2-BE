@@ -3088,7 +3088,7 @@ class ReportController extends Controller {
 
         //STOPPED BALL - 1
         $stoppedBallsR = (object)array();
-        $stoppedBallsR->name = 'Pentágono de finalización';
+        $stoppedBallsR->name = 'Balón Parado';
         $stoppedBallsR->chart = $this->stoppedBallsReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $stoppedBallsR->chart = null;
         array_push($response->reports,$stoppedBallsR);
