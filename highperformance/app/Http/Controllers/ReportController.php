@@ -343,6 +343,21 @@ class ReportController extends Controller {
         return $data;
     }
 
+
+    private function stoppedBallsArrayData($chancesIds, $totalChances){
+        $data = Chance::
+        select('chances.stopped_ball_id AS id','stopped_balls.name AS name', DB::raw('ROUND(100*COUNT(chances.stopped_ball_id)/'.$totalChances.',2) AS percentage'))
+            ->join('stopped_balls', 'stopped_balls.id', '=', 'chances.stopped_ball_id')
+            ->whereIn('chances.id', $chancesIds)
+            ->where('stopped_balls.active',config('active.ACTIVE'))
+            ->groupBy('chances.stopped_ball_id')
+            ->orderByRaw('percentage DESC')
+            ->get();
+
+        return $data;
+    }
+
+
     //PERCENTAGE DATA
     private function getReportArrayData($homeArrayData,$awayArrayData){
         $reportArrayData = array();
@@ -1727,6 +1742,63 @@ class ReportController extends Controller {
         return $chart;
     }
 
+    private function stoppedBallsReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeStoppedBallsReportArrayData = $this->stoppedBallsArrayData($homeChancesIds,$homeTotalChances);
+        $awayStoppedBallsReportArrayData = $this->stoppedBallsArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeStoppedBallsReportArrayData,$awayStoppedBallsReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
     //HOME - GENERAL - LAST MATCH
     public function homeLastMatchReport(Request $request){
         $userClubId = $request->user()->club_id;
@@ -2520,6 +2592,110 @@ class ReportController extends Controller {
 
         return $this->createDataResponse($response);
     }
+
+
+    //FILTER - STOPPED BALL
+    public function filterStoppedBallsReport(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                    ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //STOPPED BALL - 1
+        $stoppedBallsR = (object)array();
+        $stoppedBallsR->name = 'Pentágono de finalización';
+        $stoppedBallsR->chart = $this->stoppedBallsReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $stoppedBallsR->chart = null;
+        array_push($response->reports,$stoppedBallsR);
+
+
+        return $this->createDataResponse($response);
+    }
+
+
 
 
 }

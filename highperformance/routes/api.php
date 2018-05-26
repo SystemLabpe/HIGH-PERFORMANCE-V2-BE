@@ -68,7 +68,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::post('report/filter/rivalInitSituation', 'ReportController@filterRivalInitSituationReport');
     Route::post('report/filter/developmentPossesion', 'ReportController@filterDevelopmentPossesionReport');
     Route::post('report/filter/endPossesion', 'ReportController@filterEndPossesionReport');
-//    Route::post('report/filter/general', 'ReportController@homeLastTournamentReport');
+    Route::post('report/filter/stoppedBalls', 'ReportController@filterStoppedBallsReport');
 
 
 });
