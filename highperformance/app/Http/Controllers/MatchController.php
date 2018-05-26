@@ -29,6 +29,7 @@ class MatchController extends Controller {
     public function allMe(Request $request){
         $list = Match::with(['tournament','home_club','away_club'])
             ->where('club_id',$request->user()->club_id)
+            ->orderBy('match_date','DESC')
             ->get();
 
         if(count($list)>0){
@@ -183,7 +184,9 @@ class MatchController extends Controller {
         }
 
 
-        $list=$query->get();
+        $list=$query
+            ->orderBy('match_date','DESC')
+            ->get();
 
         if(count($list)>0){
             return $this->createDataResponse($list);
@@ -195,6 +198,7 @@ class MatchController extends Controller {
     public function allMeHome(Request $request){
         $list = Match::with(['tournament','home_club','away_club'])
             ->where('club_id',$request->user()->club_id)
+            ->orderBy('match_date','DESC')
             ->skip(0)
             ->take(7)
             ->get();

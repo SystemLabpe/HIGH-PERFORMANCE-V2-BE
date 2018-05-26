@@ -1811,7 +1811,7 @@ class ReportController extends Controller {
                     ->orWhere('away_club_id',$userClubId);
             })
             ->with(['tournament','home_club','away_club'])
-            ->orderBy('match_date','ASC')
+            ->orderBy('match_date','DESC')
             ->first();
 
         $homeChances = Chance::where('match_id',$lastMatch->id)
