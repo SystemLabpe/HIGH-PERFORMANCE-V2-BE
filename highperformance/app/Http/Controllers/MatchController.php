@@ -144,7 +144,7 @@ class MatchController extends Controller {
         }
 
         //TODO add value state_first_club_id in config file
-        if($request->state_first_club_id && $request->state_first_club_id){
+        if($request->first_club_id && $request->state_first_club_id){
             if($request->state_first_club_id == 1){
                 if($request->second_club_id){
                     $query = $query->where('home_club_id',$request->first_club_id);
@@ -161,7 +161,7 @@ class MatchController extends Controller {
                 }
             }
 
-        }else if($request->state_first_club_id){
+        }else if($request->first_club_id){
             if($request->second_club_id){
                 $first_club_id = $request->first_club_id;
                 $second_club_id = $request->second_club_id;
@@ -181,7 +181,8 @@ class MatchController extends Controller {
                                ->orWhere('away_club_id',$request->first_club_id);
             }
         }
-        
+
+
         $list=$query->get();
 
         if(count($list)>0){

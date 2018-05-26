@@ -862,17 +862,102 @@ class ReportController extends Controller {
         $userClubId = $request->user()->club_id;
 
         $lastMatch = Match::
-            where('club_id',$userClubId)
-                ->where(function($query)use($userClubId){
-                    return $query
-                        ->where('home_club_id',$userClubId)
-                        ->orWhere('away_club_id',$userClubId);
-                })
+        where('club_id',$userClubId)
+            ->where(function($query)use($userClubId){
+                return $query
+                    ->where('home_club_id',$userClubId)
+                    ->orWhere('away_club_id',$userClubId);
+            })
             ->with(['tournament','home_club','away_club'])
             ->orderBy('match_date','ASC')
             ->first();
 
         $homeChances = Chance::where('match_id',$lastMatch->id)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::where('match_id',$lastMatch->id)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+        $response->match = $lastMatch;
+
+        $response->reports = array();
+
+        //GENERAL - 1
+        $chanceType = (object)array();
+        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $chanceType->chart = null;
+        array_push($response->reports,$chanceType);
+
+        //GENERAL - 2
+        $goalPercentage = (object)array();
+        $goalPercentage->name = 'Porcentaje de Gol';
+        $goalPercentage->chart = $this->goalPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $goalPercentage->chart = null;
+        array_push($response->reports,$goalPercentage);
+
+        //GENERAL - 3
+        $ballRecoveredZone = (object)array();
+        $ballRecoveredZone->name = 'Zona donde más se recupera el balón';
+        $ballRecoveredZone->chart = $this->ballRecoveredZoneGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $ballRecoveredZone->chart = null;
+        array_push($response->reports,$ballRecoveredZone);
+
+        //GENERAL - 4
+        $previousAction = (object)array();
+        $previousAction->name = 'Acción previa a la finalización de la jugada';
+        $previousAction->chart = $this->previousActionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $previousAction->chart =null;
+        array_push($response->reports,$previousAction);
+
+        //GENERAL - 5
+        $completionAction = (object)array();
+        $completionAction->name = 'Finalización de la jugada';
+        $completionAction->chart = $this->completionActionGeneralReport($homeChancesIds, $awayChancesIds);
+//        $completionAction->chart = null;
+        array_push($response->reports,$completionAction);
+
+        //GENERAL - 6
+        $lastFieldZoneRival = (object)array();
+        $lastFieldZoneRival->name = 'Zona donde terminan las jugadas rivales';
+        $lastFieldZoneRival->chart = $this->lastFieldZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $lastFieldZoneRival->chart = null;
+        array_push($response->reports,$lastFieldZoneRival);
+
+        return $this->createDataResponse($response);
+    }
+
+    //HOME - GENERAL - LAST TOURNAMENT BASE ON LAST MATCH
+    public function homeLastTournamentReport(Request $request){
+        $userClubId = $request->user()->club_id;
+
+        $lastMatch = Match::
+        where('club_id',$userClubId)
+            ->where(function($query)use($userClubId){
+                return $query
+                    ->where('home_club_id',$userClubId)
+                    ->orWhere('away_club_id',$userClubId);
+            })
+            ->with(['tournament','home_club','away_club'])
+            ->orderBy('match_date','ASC')
+            ->first();
+
+        $homeChances = Chance::where('match_id',$lastMatch->tournament->id)
             ->where('is_home',config('isHome.HOME'))
             ->get();
 
