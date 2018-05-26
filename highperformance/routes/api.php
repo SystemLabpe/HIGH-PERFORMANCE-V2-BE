@@ -35,6 +35,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
 
     Route::get('clubs/rivals/tournament/{tournamentId}', 'ClubController@rivalsByTournament');
     Route::get('clubs/rivals', 'ClubController@allRivals');
+    Route::get('clubs/rivals/general', 'ClubController@allRivalsGeneral');
     Route::post('clubs/rival', 'ClubController@addRival');
     Route::put('clubs/rival/{id}', 'ClubController@editRival');
     Route::delete('clubs/rival/{id}', 'ClubController@deleteRival');
@@ -58,10 +59,10 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::delete('chance/me/{id}', 'ChanceController@deleteMe');
 
 
+
     Route::get('report/test', 'ReportController@testReport');
     Route::get('report/lastmatch/general', 'ReportController@homeLastMatchReport');
     Route::get('report/lasttournament/general', 'ReportController@homeLastTournamentReport');
-
 
     Route::post('report/filter/general', 'ReportController@homeLastTournamentReport');
     Route::post('report/filter/initPossession', 'ReportController@filterInitPossessionReport');
@@ -70,12 +71,12 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::post('report/filter/endPossesion', 'ReportController@filterEndPossesionReport');
     Route::post('report/filter/stoppedBalls', 'ReportController@filterStoppedBallsReport');
 
-    Route::post('report/match/general/{matchId}', 'ReportController@matchGeneralReport');
-    Route::post('report/match/initPossession/{matchId}', 'ReportController@matchInitPossessionReport');
-    Route::post('report/match/rivalInitSituation/{matchId}', 'ReportController@matchRivalInitSituationReport');
-    Route::post('report/match/developmentPossesion/{matchId}', 'ReportController@matchDevelopmentPossesionReport');
-    Route::post('report/match/endPossesion/{matchId}', 'ReportController@matchEndPossesionReport');
-    Route::post('report/match/stoppedBalls/{matchId}', 'ReportController@matchStoppedBallsReport');
+    Route::get('report/match/general/{matchId}', 'ReportController@matchGeneralReport');
+    Route::get('report/match/initPossession/{matchId}', 'ReportController@matchInitPossessionReport');
+    Route::get('report/match/rivalInitSituation/{matchId}', 'ReportController@matchRivalInitSituationReport');
+    Route::get('report/match/developmentPossesion/{matchId}', 'ReportController@matchDevelopmentPossesionReport');
+    Route::get('report/match/endPossesion/{matchId}', 'ReportController@matchEndPossesionReport');
+    Route::get('report/match/stoppedBalls/{matchId}', 'ReportController@matchStoppedBallsReport');
 
 
 });
