@@ -940,7 +940,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -998,7 +998,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1114,7 +1114,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1172,7 +1172,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1230,7 +1230,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1288,7 +1288,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1346,7 +1346,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1404,7 +1404,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1462,7 +1462,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1636,7 +1636,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
@@ -1694,7 +1694,7 @@ class ReportController extends Controller {
 //        return $reportArrayData;
 
         $chart = (object)array();
-        $chart->type = 'radar';
+        $chart->type = 'bar';
 
         if(count($reportArrayData) == 0){
             $chart->data = null;
