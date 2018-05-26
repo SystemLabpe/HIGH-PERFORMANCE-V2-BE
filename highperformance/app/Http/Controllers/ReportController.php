@@ -857,6 +857,876 @@ class ReportController extends Controller {
         return $chart;
     }
 
+    //INIT POSSESSION - 1
+    private function startTypeReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeStartTypeReportArrayData = $this->startTypeArrayData($homeChancesIds,$homeTotalChances);
+        $awayStartTypeReportArrayData = $this->startTypeArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeStartTypeReportArrayData,$awayStartTypeReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //INIT POSSESSION - 2
+    private function fieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeFieldZoneReportArrayData = $this->fieldZoneArrayData($homeChancesIds,$homeTotalChances);
+        $awayFieldZoneReportArrayData = $this->fieldZoneArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeFieldZoneReportArrayData,$awayFieldZoneReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //INIT POSSESSION - 3
+    private function initialPenetrationReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeInitialPenetrationReportArrayData = $this->initialPenetrationArrayData($homeChancesIds,$homeTotalChances);
+        $awayInitialPenetrationReportArrayData = $this->initialPenetrationArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeInitialPenetrationReportArrayData,$awayInitialPenetrationReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //INIT POSSESSION - 4
+    private function playerPositionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homePlayerPositionReportArrayData = $this->playerPositionArrayData($homeChancesIds,$homeTotalChances);
+        $awayPlayerPositionReportArrayData = $this->playerPositionArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homePlayerPositionReportArrayData,$awayPlayerPositionReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //RIVAL SITUATION - 1
+    private function fieldAreaReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeFieldAreaReportArrayData = $this->fieldAreaArrayData($homeChancesIds,$homeTotalChances);
+        $awayFieldAreaReportArrayData = $this->fieldAreaArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeFieldAreaReportArrayData,$awayFieldAreaReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //RIVAL SITUATION - 2
+    private function invationLevelReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeInvationLevelReportArrayData = $this->invationLevelArrayData($homeChancesIds,$homeTotalChances);
+        $awayInvationLevelReportArrayData = $this->invationLevelArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeInvationLevelReportArrayData,$awayInvationLevelReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //RIVAL SITUATION - 3
+    private function numericalBalanceReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeNumericalBalanceReportArrayData = $this->numericalBalanceArrayData($homeChancesIds,$homeTotalChances);
+        $awayNumericalBalanceReportArrayData = $this->numericalBalanceArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeNumericalBalanceReportArrayData,$awayNumericalBalanceReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //DEVELOPMENT POSSESSION - 1
+    private function possessionPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homePossessionPassesReportArrayData = $this->possessionPasessArrayData($homeChancesIds,$homeTotalChances);
+        $awayPossessionPassesReportArrayData = $this->possessionPasessArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homePossessionPassesReportArrayData,$awayPossessionPassesReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //DEVELOPMENT POSSESSION - 2
+    private function penetratingPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homePenetratingPassesReportArrayData = $this->penetrationPasessArrayData($homeChancesIds,$homeTotalChances);
+        $awayPenetratingPassesReportArrayData = $this->penetrationPasessArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homePenetratingPassesReportArrayData,$awayPenetratingPassesReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //DEVELOPMENT POSSESSION - 3
+    private function progressionTypeReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeProgressionTypeReportArrayData = $this->progretionTypeArrayData($homeChancesIds,$homeTotalChances);
+        $awayProgressionTypeReportArrayData = $this->progretionTypeArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeProgressionTypeReportArrayData,$awayProgressionTypeReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //END POSSESSION - 1
+    private function pentagonCompletionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homePentagonCompletionReportArrayData = $this->pentagonCompetionArrayData($homeChancesIds,$homeTotalChances);
+        $awayPentagonCompletionReportArrayData = $this->pentagonCompetionArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homePentagonCompletionReportArrayData,$awayPentagonCompletionReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //END POSSESSION - 2
+    private function previousActionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homePreviousActionReportArrayData = $this->previousActionArrayData($homeChancesIds,$homeTotalChances);
+        $awayPreviousActionReportArrayData = $this->previousActionArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homePreviousActionReportArrayData,$awayPreviousActionReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //END POSSESSION - 3
+    private function completionActionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeCompletionActionReportArrayData = $this->completionActionArrayData($homeChancesIds,$homeTotalChances);
+        $awayCompletionActionReportArrayData = $this->completionActionArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeCompletionActionReportArrayData,$awayCompletionActionReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //END POSSESSION - 4
+    private function penultimateFieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homePenultimateFieldZoneReportArrayData = $this->penultimateFieldZoneArrayData($homeChancesIds,$homeTotalChances);
+        $awayPenultimateFieldZoneReportArrayData = $this->penultimateFieldZoneArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homePenultimateFieldZoneReportArrayData,$awayPenultimateFieldZoneReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
+    //END POSSESSION - 5
+    private function ultimateFieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances){
+        $homeUltimateFieldZoneReportArrayData = $this->penultimateFieldZoneArrayData($homeChancesIds,$homeTotalChances);
+        $awayUltimateFieldZoneReportArrayData = $this->penultimateFieldZoneArrayData($awayChancesIds,$awayTotalChances);
+
+        $reportArrayData = $this->getReportArrayData($homeUltimateFieldZoneReportArrayData,$awayUltimateFieldZoneReportArrayData);
+
+//        return $reportArrayData;
+
+        $chart = (object)array();
+        $chart->type = 'radar';
+
+        if(count($reportArrayData) == 0){
+            $chart->data = null;
+        }else{
+            $chart->data = (object)array();
+
+            $chart->data->labels = array();
+            $chart->data->datasets = array();
+
+            $homeDataset = (object)array();
+            $homeDataset->label = 'Local';
+            $homeDataset->data = array();
+            $homeDataset->fill = true;
+            $homeDataset->backgroundColor = 'rgba(254, 199, 34, 0.2)';
+            $homeDataset->borderColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBackgroundColor = 'rgb(254, 199, 34)';
+            $homeDataset->pointBorderColor = '#fff';
+            $homeDataset->pointHoverBackgroundColor = '#fff';
+            $homeDataset->pointHoverBorderColor = 'rgb(254, 199, 34)';
+
+            $awayDataset = (object)array();
+            $awayDataset->label = 'Visitante';
+            $awayDataset->data = array();
+            $awayDataset->fill = true;
+            $awayDataset->backgroundColor = 'rgba(36, 37, 47, 0.2)';
+            $awayDataset->borderColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBackgroundColor = 'rgb(36, 37, 47)';
+            $awayDataset->pointBorderColor = '#fff';
+            $awayDataset->pointHoverBackgroundColor = '#fff';
+            $awayDataset->pointHoverBorderColor = 'rgb(36, 37, 47)';
+
+
+            foreach ($reportArrayData as $reportData){
+                array_push($chart->data->labels,$reportData->name);
+                array_push($homeDataset->data,$reportData->homePercentage);
+                array_push($awayDataset->data,$reportData->awayPercentage);
+            }
+
+
+            array_push($chart->data->datasets,$homeDataset);
+            array_push($chart->data->datasets,$awayDataset);
+        }
+
+
+        return $chart;
+    }
+
     //HOME - GENERAL - LAST MATCH
     public function homeLastMatchReport(Request $request){
         $userClubId = $request->user()->club_id;
@@ -1034,5 +1904,622 @@ class ReportController extends Controller {
 
         return $this->createDataResponse($response);
     }
+
+    //FILTER - GENERAL
+    public function filterGeneralReport(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                    ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //GENERAL - 1
+        $chanceType = (object)array();
+        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $chanceType->chart = null;
+        array_push($response->reports,$chanceType);
+
+        //GENERAL - 2
+        $goalPercentage = (object)array();
+        $goalPercentage->name = 'Porcentaje de Gol';
+        $goalPercentage->chart = $this->goalPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $goalPercentage->chart = null;
+        array_push($response->reports,$goalPercentage);
+
+        //GENERAL - 3
+        $ballRecoveredZone = (object)array();
+        $ballRecoveredZone->name = 'Zona donde más se recupera el balón';
+        $ballRecoveredZone->chart = $this->ballRecoveredZoneGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $ballRecoveredZone->chart = null;
+        array_push($response->reports,$ballRecoveredZone);
+
+        //GENERAL - 4
+        $previousAction = (object)array();
+        $previousAction->name = 'Acción previa a la finalización de la jugada';
+        $previousAction->chart = $this->previousActionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $previousAction->chart =null;
+        array_push($response->reports,$previousAction);
+
+        //GENERAL - 5
+        $completionAction = (object)array();
+        $completionAction->name = 'Finalización de la jugada';
+        $completionAction->chart = $this->completionActionGeneralReport($homeChancesIds, $awayChancesIds);
+//        $completionAction->chart = null;
+        array_push($response->reports,$completionAction);
+
+        //GENERAL - 6
+        $lastFieldZoneRival = (object)array();
+        $lastFieldZoneRival->name = 'Zona donde terminan las jugadas rivales';
+        $lastFieldZoneRival->chart = $this->lastFieldZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $lastFieldZoneRival->chart = null;
+        array_push($response->reports,$lastFieldZoneRival);
+
+        return $this->createDataResponse($response);
+    }
+
+    //FILTER - INIT POSSESSION
+    public function filterInitPossessionReport(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                    ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //INIT POSSESSION - 1
+        $startType = (object)array();
+        $startType->name = 'Tipo de inicio';
+        $startType->chart = $this->startTypeReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $startType->chart = null;
+        array_push($response->reports,$startType);
+
+        //INIT POSSESSION - 2
+        $fieldZone = (object)array();
+        $fieldZone->name = 'Zona del campo';
+        $fieldZone->chart = $this->fieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $fieldZone->chart = null;
+        array_push($response->reports,$fieldZone);
+
+        //INIT POSSESSION - 3
+        $initialPenetration = (object)array();
+        $initialPenetration->name = 'Penetración inicial';
+        $initialPenetration->chart = $this->initialPenetrationReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $initialPenetration->chart = null;
+        array_push($response->reports,$initialPenetration);
+
+        //INIT POSSESSION - 4
+        $playerPosition = (object)array();
+        $playerPosition->name = 'Posición del jugador';
+        $playerPosition->chart = $this->playerPositionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $previousAction->chart =null;
+        array_push($response->reports,$playerPosition);
+
+
+        return $this->createDataResponse($response);
+    }
+
+    //FILTER - RIVAL SITUATION
+    public function filterRivalInitSituationReport(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                    ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+
+        //RIVAL SITUATION - 1
+        $fieldArea = (object)array();
+        $fieldArea->name = 'Posición';
+        $fieldArea->chart = $this->fieldAreaReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $fieldArea->chart = null;
+        array_push($response->reports,$fieldArea);
+
+        //RIVAL SITUATION - 2
+        $invationLevel = (object)array();
+        $invationLevel->name = 'Nivel De Invación';
+        $invationLevel->chart = $this->invationLevelReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $invationLevel->chart = null;
+        array_push($response->reports,$invationLevel);
+
+        //RIVAL SITUATION - 3
+        $numericalBalance = (object)array();
+        $numericalBalance->name = 'Balance Numerico';
+        $numericalBalance->chart = $this->numericalBalanceReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $numericalBalance->chart = null;
+        array_push($response->reports,$numericalBalance);
+
+
+        return $this->createDataResponse($response);
+    }
+
+    //FILTER - DEVELOPMENT POSSESSION
+    public function filterDevelopmentPossesionReport(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                    ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //DEVELOPMENT POSSESSION - 1
+        $possessionPasses = (object)array();
+        $possessionPasses->name = 'Pases por poseción';
+        $possessionPasses->chart = $this->possessionPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $possessionPasses->chart = null;
+        array_push($response->reports,$possessionPasses);
+
+        //DEVELOPMENT POSSESSION - 2
+        $penetratingPasses = (object)array();
+        $penetratingPasses->name = 'Pases penetrantes';
+        $penetratingPasses->chart = $this->penetratingPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $invationLevel->chart = null;
+        array_push($response->reports,$penetratingPasses);
+
+        //DEVELOPMENT POSSESSION - 3
+        $progressionType = (object)array();
+        $progressionType->name = 'Tipo de progresión';
+        $progressionType->chart = $this->progressionTypeReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $progressionType->chart = null;
+        array_push($response->reports,$progressionType);
+
+
+        return $this->createDataResponse($response);
+    }
+
+    //FILTER - END POSSESSION
+    public function filterEndPossesionReport(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                    ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //END POSSESSION - 1
+        $pentagonCompletion = (object)array();
+        $pentagonCompletion->name = 'Pentágono de finalización';
+        $pentagonCompletion->chart = $this->pentagonCompletionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $pentagonCompletion->chart = null;
+        array_push($response->reports,$pentagonCompletion);
+
+        //END POSSESSION - 2
+        $previousAction = (object)array();
+        $previousAction->name = 'Acción Previa';
+        $previousAction->chart = $this->previousActionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $invationLevel->chart = null;
+        array_push($response->reports,$previousAction);
+
+        //END POSSESSION - 3
+        $completionAction = (object)array();
+        $completionAction->name = 'Finalización de la jugada';
+        $completionAction->chart = $this->completionActionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $completionAction->chart = null;
+        array_push($response->reports,$completionAction);
+
+        //END POSSESSION - 4
+        $enultimateFieldZone = (object)array();
+        $enultimateFieldZone->name = 'Penúltimo sub-espacio rival';
+        $enultimateFieldZone->chart = $this->penultimateFieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $enultimateFieldZone->chart = null;
+        array_push($response->reports,$enultimateFieldZone);
+
+        //END POSSESSION - 5
+        $ultimateFieldZone = (object)array();
+        $ultimateFieldZone->name = 'Ultimo sub-espacio rival';
+        $ultimateFieldZone->chart = $this->ultimateFieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $ultimateFieldZone->chart = null;
+        array_push($response->reports,$ultimateFieldZone);
+
+        return $this->createDataResponse($response);
+    }
+
 
 }

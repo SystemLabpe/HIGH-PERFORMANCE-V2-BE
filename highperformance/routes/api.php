@@ -63,6 +63,14 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::get('report/lasttournament/general', 'ReportController@homeLastTournamentReport');
 
 
+    Route::post('report/filter/general', 'ReportController@homeLastTournamentReport');
+    Route::post('report/filter/initPossession', 'ReportController@filterInitPossessionReport');
+    Route::post('report/filter/rivalInitSituation', 'ReportController@filterRivalInitSituationReport');
+    Route::post('report/filter/developmentPossesion', 'ReportController@filterDevelopmentPossesionReport');
+    Route::post('report/filter/endPossesion', 'ReportController@filterEndPossesionReport');
+//    Route::post('report/filter/general', 'ReportController@homeLastTournamentReport');
+
+
 });
 
 //ADMIN
