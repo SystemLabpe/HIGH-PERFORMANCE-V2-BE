@@ -947,17 +947,26 @@ class ReportController extends Controller {
         $userClubId = $request->user()->club_id;
 
         $lastMatch = Match::
-        where('club_id',$userClubId)
+            where('club_id',$userClubId)
             ->where(function($query)use($userClubId){
                 return $query
                     ->where('home_club_id',$userClubId)
                     ->orWhere('away_club_id',$userClubId);
             })
-            ->with(['tournament','home_club','away_club'])
             ->orderBy('match_date','ASC')
             ->first();
 
-        $homeChances = Chance::where('match_id',$lastMatch->tournament->id)
+        $lastMatchs = Match::
+            where('club_id',$userClubId)
+            ->where('tournament_id',$lastMatch->tournament_id)
+            ->get();
+
+        $last_matchs_ids = array();
+        foreach ($lastMatchs as $lastMatch){
+            array_push($last_matchs_ids,$lastMatch->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$last_matchs_ids)
             ->where('is_home',config('isHome.HOME'))
             ->get();
 
@@ -967,7 +976,7 @@ class ReportController extends Controller {
         }
         $homeTotalChances = count($homeChancesIds);
 
-        $awayChances = Chance::where('match_id',$lastMatch->id)
+        $awayChances = Chance::whereIn('match_id',$last_matchs_ids)
             ->where('is_home',config('isHome.AWAY'))
             ->get();
 
@@ -978,7 +987,6 @@ class ReportController extends Controller {
         $awayTotalChances = count($awayChancesIds);
 
         $response =(object)array();
-        $response->match = $lastMatch;
 
         $response->reports = array();
 
