@@ -35,7 +35,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
 
     Route::get('clubs/rivals/tournament/{tournamentId}', 'ClubController@rivalsByTournament');
     Route::get('clubs/rivals', 'ClubController@allRivals');
-    Route::get('clubs/rivals/general', 'ClubController@allRivalsGeneral');
+    Route::get('clubs/rivals/home', 'ClubController@allRivalsHome');
     Route::post('clubs/rival', 'ClubController@addRival');
     Route::put('clubs/rival/{id}', 'ClubController@editRival');
     Route::delete('clubs/rival/{id}', 'ClubController@deleteRival');
@@ -47,6 +47,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
 
     Route::get('match/{id}', 'MatchController@find');
     Route::get('matches/me', 'MatchController@allMe');
+    Route::get('matches/me/home', 'MatchController@allMeHome');
     Route::post('match/me', 'MatchController@addMe');
     Route::put('match/me/{id}', 'MatchController@editMe');
     Route::delete('match/me/{id}', 'MatchController@deleteMe');

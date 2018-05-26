@@ -192,4 +192,18 @@ class MatchController extends Controller {
         return $this->createErrorResponse('Empty list',config('customErrors.NO_LIST_RESULTS'));
     }
 
+    public function allMeHome(Request $request){
+        $list = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->skip(0)
+            ->take(7)
+            ->get();
+
+        if(count($list)>0){
+            return $this->createDataResponse($list);
+        }
+
+        return $this->createErrorResponse('Empty list',config('customErrors.NO_LIST_RESULTS'));
+    }
+
 }

@@ -166,7 +166,7 @@ class ClubController extends Controller{
         return $this->createErrorResponse('Empty list',config('customErrors.NO_LIST_RESULTS'));
     }
 
-    public function allRivalsGeneral(Request $request){
+    public function allRivalsHome(Request $request){
         $clubs = Club::where('active',config('active.ACTIVE'))
             ->where('rival_club_id',$request->user()->club_id)
             ->skip(0)
