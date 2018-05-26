@@ -49,6 +49,7 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::post('match/me', 'MatchController@addMe');
     Route::put('match/me/{id}', 'MatchController@editMe');
     Route::delete('match/me/{id}', 'MatchController@deleteMe');
+    Route::post('matches/me/filter', 'MatchController@filterMe');
 
     Route::get('chance/{id}', 'ChanceController@find');
     Route::get('chances/me/match/{matchId}', 'ChanceController@allByMatch');

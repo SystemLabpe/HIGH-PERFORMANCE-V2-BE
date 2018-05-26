@@ -125,4 +125,70 @@ class MatchController extends Controller {
         return $this->createSuccessResponse();
     }
 
+    public function filterMe(Request $request){
+        if(!$request->has('tournament_id') || !$request->has('first_club_id') || !$request->has('state_first_club_id') || !$request->has('second_club_id')){
+            $request->validate([
+                'tournament_id' => 'required',
+                'first_club_id' => 'required',
+                'state_first_club_id' => 'required',
+                'second_club_id' => 'required'
+            ]);
+        }
+
+
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id);
+
+        if($request->tournament_id){
+            $query = $query->where('tournament_id',$request->tournament_id);
+        }
+
+        //TODO add value state_first_club_id in config file
+        if($request->state_first_club_id && $request->state_first_club_id){
+            if($request->state_first_club_id == 1){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                    $query = $query->where('away_club_id',$request->second_club_id);
+                }else{
+                    $query = $query->where('home_club_id',$request->first_club_id);
+                }
+            }else if($request->state_first_club_id == 2){
+                if($request->second_club_id){
+                    $query = $query->where('home_club_id',$request->second_club_id);
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }else{
+                    $query = $query->where('away_club_id',$request->first_club_id);
+                }
+            }
+
+        }else if($request->state_first_club_id){
+            if($request->second_club_id){
+                $first_club_id = $request->first_club_id;
+                $second_club_id = $request->second_club_id;
+                $query = $query
+                    ->where(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$first_club_id)
+                            ->Where('away_club_id',$second_club_id);
+                    })
+                    ->orWhere(function($query)use($first_club_id,$second_club_id){
+                        return $query
+                            ->where('home_club_id',$second_club_id)
+                            ->Where('away_club_id',$first_club_id);
+                    });
+            }else{
+                $query = $query->where('home_club_id',$request->first_club_id)
+                               ->orWhere('away_club_id',$request->first_club_id);
+            }
+        }
+        
+        $list=$query->get();
+
+        if(count($list)>0){
+            return $this->createDataResponse($list);
+        }
+
+        return $this->createErrorResponse('Empty list',config('customErrors.NO_LIST_RESULTS'));
+    }
+
 }
