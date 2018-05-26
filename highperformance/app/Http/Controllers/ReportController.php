@@ -2695,6 +2695,409 @@ class ReportController extends Controller {
         return $this->createDataResponse($response);
     }
 
+    //MATCH - GENERAL
+    public function matchGeneralReport(Request $request,$matchId){
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->where('id',$matchId);
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //GENERAL - 1
+        $chanceType = (object)array();
+        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $chanceType->chart = null;
+        array_push($response->reports,$chanceType);
+
+        //GENERAL - 2
+        $goalPercentage = (object)array();
+        $goalPercentage->name = 'Porcentaje de Gol';
+        $goalPercentage->chart = $this->goalPercentageGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $goalPercentage->chart = null;
+        array_push($response->reports,$goalPercentage);
+
+        //GENERAL - 3
+        $ballRecoveredZone = (object)array();
+        $ballRecoveredZone->name = 'Zona donde más se recupera el balón';
+        $ballRecoveredZone->chart = $this->ballRecoveredZoneGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $ballRecoveredZone->chart = null;
+        array_push($response->reports,$ballRecoveredZone);
+
+        //GENERAL - 4
+        $previousAction = (object)array();
+        $previousAction->name = 'Acción previa a la finalización de la jugada';
+        $previousAction->chart = $this->previousActionGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $previousAction->chart =null;
+        array_push($response->reports,$previousAction);
+
+        //GENERAL - 5
+        $completionAction = (object)array();
+        $completionAction->name = 'Finalización de la jugada';
+        $completionAction->chart = $this->completionActionGeneralReport($homeChancesIds, $awayChancesIds);
+//        $completionAction->chart = null;
+        array_push($response->reports,$completionAction);
+
+        //GENERAL - 6
+        $lastFieldZoneRival = (object)array();
+        $lastFieldZoneRival->name = 'Zona donde terminan las jugadas rivales';
+        $lastFieldZoneRival->chart = $this->lastFieldZoneRivalGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $lastFieldZoneRival->chart = null;
+        array_push($response->reports,$lastFieldZoneRival);
+
+        return $this->createDataResponse($response);
+    }
+
+    //MATCH - INIT POSSESSION
+    public function matchInitPossessionReport(Request $request,$matchId){
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->where('id',$matchId);
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //INIT POSSESSION - 1
+        $startType = (object)array();
+        $startType->name = 'Tipo de inicio';
+        $startType->chart = $this->startTypeReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $startType->chart = null;
+        array_push($response->reports,$startType);
+
+        //INIT POSSESSION - 2
+        $fieldZone = (object)array();
+        $fieldZone->name = 'Zona del campo';
+        $fieldZone->chart = $this->fieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $fieldZone->chart = null;
+        array_push($response->reports,$fieldZone);
+
+        //INIT POSSESSION - 3
+        $initialPenetration = (object)array();
+        $initialPenetration->name = 'Penetración inicial';
+        $initialPenetration->chart = $this->initialPenetrationReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $initialPenetration->chart = null;
+        array_push($response->reports,$initialPenetration);
+
+        //INIT POSSESSION - 4
+        $playerPosition = (object)array();
+        $playerPosition->name = 'Posición del jugador';
+        $playerPosition->chart = $this->playerPositionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $previousAction->chart =null;
+        array_push($response->reports,$playerPosition);
+
+
+        return $this->createDataResponse($response);
+    }
+
+    //MATCH - RIVAL SITUATION
+    public function matchRivalInitSituationReport(Request $request,$matchId){
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->where('id',$matchId);
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+
+        //RIVAL SITUATION - 1
+        $fieldArea = (object)array();
+        $fieldArea->name = 'Posición';
+        $fieldArea->chart = $this->fieldAreaReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $fieldArea->chart = null;
+        array_push($response->reports,$fieldArea);
+
+        //RIVAL SITUATION - 2
+        $invationLevel = (object)array();
+        $invationLevel->name = 'Nivel De Invación';
+        $invationLevel->chart = $this->invationLevelReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $invationLevel->chart = null;
+        array_push($response->reports,$invationLevel);
+
+        //RIVAL SITUATION - 3
+        $numericalBalance = (object)array();
+        $numericalBalance->name = 'Balance Numerico';
+        $numericalBalance->chart = $this->numericalBalanceReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $numericalBalance->chart = null;
+        array_push($response->reports,$numericalBalance);
+
+
+        return $this->createDataResponse($response);
+    }
+
+    //MATCH - DEVELOPMENT POSSESSION
+    public function matchDevelopmentPossesionReport(Request $request,$matchId){
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->where('id',$matchId);
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //DEVELOPMENT POSSESSION - 1
+        $possessionPasses = (object)array();
+        $possessionPasses->name = 'Pases por poseción';
+        $possessionPasses->chart = $this->possessionPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $possessionPasses->chart = null;
+        array_push($response->reports,$possessionPasses);
+
+        //DEVELOPMENT POSSESSION - 2
+        $penetratingPasses = (object)array();
+        $penetratingPasses->name = 'Pases penetrantes';
+        $penetratingPasses->chart = $this->penetratingPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $invationLevel->chart = null;
+        array_push($response->reports,$penetratingPasses);
+
+        //DEVELOPMENT POSSESSION - 3
+        $progressionType = (object)array();
+        $progressionType->name = 'Tipo de progresión';
+        $progressionType->chart = $this->progressionTypeReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $progressionType->chart = null;
+        array_push($response->reports,$progressionType);
+
+
+        return $this->createDataResponse($response);
+    }
+
+    //MATCH - END POSSESSION
+    public function matchEndPossesionReport(Request $request,$matchId){
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->where('id',$matchId);
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //END POSSESSION - 1
+        $pentagonCompletion = (object)array();
+        $pentagonCompletion->name = 'Pentágono de finalización';
+        $pentagonCompletion->chart = $this->pentagonCompletionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $pentagonCompletion->chart = null;
+        array_push($response->reports,$pentagonCompletion);
+
+        //END POSSESSION - 2
+        $previousAction = (object)array();
+        $previousAction->name = 'Acción Previa';
+        $previousAction->chart = $this->previousActionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $invationLevel->chart = null;
+        array_push($response->reports,$previousAction);
+
+        //END POSSESSION - 3
+        $completionAction = (object)array();
+        $completionAction->name = 'Finalización de la jugada';
+        $completionAction->chart = $this->completionActionReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $completionAction->chart = null;
+        array_push($response->reports,$completionAction);
+
+        //END POSSESSION - 4
+        $enultimateFieldZone = (object)array();
+        $enultimateFieldZone->name = 'Penúltimo sub-espacio rival';
+        $enultimateFieldZone->chart = $this->penultimateFieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $enultimateFieldZone->chart = null;
+        array_push($response->reports,$enultimateFieldZone);
+
+        //END POSSESSION - 5
+        $ultimateFieldZone = (object)array();
+        $ultimateFieldZone->name = 'Ultimo sub-espacio rival';
+        $ultimateFieldZone->chart = $this->ultimateFieldZoneReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $ultimateFieldZone->chart = null;
+        array_push($response->reports,$ultimateFieldZone);
+
+        return $this->createDataResponse($response);
+    }
+
+
+    //MATCH - STOPPED BALL
+    public function matchStoppedBallsReport(Request $request,$matchId){
+        $query = Match::with(['tournament','home_club','away_club'])
+            ->where('club_id',$request->user()->club_id)
+            ->where('id',$matchId);
+
+
+        $matchs=$query->get();
+
+        $matchs_ids = array();
+        foreach ($matchs as $match){
+            array_push($matchs_ids,$match->id);
+        }
+
+        $homeChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.HOME'))
+            ->get();
+
+        $homeChancesIds = array();
+        foreach ($homeChances as $homeChance){
+            array_push($homeChancesIds,$homeChance->id);
+        }
+        $homeTotalChances = count($homeChancesIds);
+
+        $awayChances = Chance::whereIn('match_id',$matchs_ids)
+            ->where('is_home',config('isHome.AWAY'))
+            ->get();
+
+        $awayChancesIds = array();
+        foreach ($awayChances as $awayChance){
+            array_push($awayChancesIds,$awayChance->id);
+        }
+        $awayTotalChances = count($awayChancesIds);
+
+        $response =(object)array();
+
+        $response->reports = array();
+
+        //STOPPED BALL - 1
+        $stoppedBallsR = (object)array();
+        $stoppedBallsR->name = 'Pentágono de finalización';
+        $stoppedBallsR->chart = $this->stoppedBallsReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
+//        $stoppedBallsR->chart = null;
+        array_push($response->reports,$stoppedBallsR);
+
+
+        return $this->createDataResponse($response);
+    }
+
+
 
 
 

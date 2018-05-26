@@ -70,6 +70,13 @@ Route::middleware(['auth:api','scope:user'])->group(function () {
     Route::post('report/filter/endPossesion', 'ReportController@filterEndPossesionReport');
     Route::post('report/filter/stoppedBalls', 'ReportController@filterStoppedBallsReport');
 
+    Route::post('report/match/general/{matchId}', 'ReportController@matchGeneralReport');
+    Route::post('report/match/initPossession/{matchId}', 'ReportController@matchInitPossessionReport');
+    Route::post('report/match/rivalInitSituation/{matchId}', 'ReportController@matchRivalInitSituationReport');
+    Route::post('report/match/developmentPossesion/{matchId}', 'ReportController@matchDevelopmentPossesionReport');
+    Route::post('report/match/endPossesion/{matchId}', 'ReportController@matchEndPossesionReport');
+    Route::post('report/match/stoppedBalls/{matchId}', 'ReportController@matchStoppedBallsReport');
+
 
 });
 
