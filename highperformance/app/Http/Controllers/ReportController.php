@@ -552,28 +552,24 @@ class ReportController extends Controller {
             $chart->options->legend = (object)array();
             $chart->options->legend->position = 'top';
             $chart->options->animation = (object)array();
-            $chart->options->legend->animateScale = true;
-            $chart->options->legend->animateRotate = true;
+            $chart->options->animation->animateScale = true;
+            $chart->options->animation->animateRotate = true;
 
             $chart->data = (object)array();
 
-            $chart->data->labels = array();
-            array_push($chart->data->labels,['Goles Local', 'No Goles Local', 'Goles de Visitante', 'No Goles de Visitante']);
-
+            $chart->data->labels = ['Goles Local', 'No Goles Local', 'Goles de Visitante', 'No Goles de Visitante'];
 
 
             $chart->data->datasets = array();
 
             $homeDataset = (object)array();
             $homeDataset->data = array();
-            $homeDataset->backgroundColor = array();
-            array_push($homeDataset->backgroundColor,['rgb(254, 199, 34)', 'rgba(254, 199, 34, 0.2)', 'rgb(36, 37, 47)', 'rgba(36, 37, 47, 0.2)']);
+            $homeDataset->backgroundColor = ['rgb(254, 199, 34)', 'rgba(254, 199, 34, 0.2)', 'rgb(36, 37, 47)', 'rgba(36, 37, 47, 0.2)'];
             $homeDataset->label = 'home';
 
             $awayDataset = (object)array();
             $awayDataset->data = array();
-            $awayDataset->backgroundColor = array();
-            array_push($awayDataset->backgroundColor,['rgb(254, 199, 34)', 'rgba(254, 199, 34, 0.2)', 'rgb(36, 37, 47)', 'rgba(36, 37, 47, 0.2)']);
+            $awayDataset->backgroundColor = ['rgb(254, 199, 34)', 'rgba(254, 199, 34, 0.2)', 'rgb(36, 37, 47)', 'rgba(36, 37, 47, 0.2)'];
             $awayDataset->label = 'away';
 
             $homeGoal = null;
@@ -591,8 +587,8 @@ class ReportController extends Controller {
 
             }
 
-            array_push($homeDataset->data,[$homeGoal, $homeNoGoal, 0, 0]);
-            array_push($awayDataset->data,[0, 0, $awayGoal, $awayNoGoal]);
+            $homeDataset->data = [$homeGoal, $homeNoGoal, 0, 0];
+            $awayDataset->data = [0, 0, $awayGoal, $awayNoGoal];
 
             array_push($chart->data->datasets,$homeDataset);
             array_push($chart->data->datasets,$awayDataset);
