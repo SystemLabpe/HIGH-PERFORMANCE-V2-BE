@@ -868,7 +868,7 @@ class ReportController extends Controller {
                         ->where('home_club_id',$userClubId)
                         ->orWhere('away_club_id',$userClubId);
                 })
-            ->with(['home_club','away_club'])
+            ->with(['tournament','home_club','away_club'])
             ->orderBy('match_date','ASC')
             ->first();
 
