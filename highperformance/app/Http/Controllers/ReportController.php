@@ -1841,7 +1841,7 @@ class ReportController extends Controller {
 
         //GENERAL - 1
         $chanceType = (object)array();
-        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->name = 'Tipo de ocasión de Gol';
         $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $chanceType->chart = null;
         array_push($response->reports,$chanceType);
@@ -1934,7 +1934,7 @@ class ReportController extends Controller {
 
         //GENERAL - 1
         $chanceType = (object)array();
-        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->name = 'Tipo de ocasión de Gol';
         $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $chanceType->chart = null;
         array_push($response->reports,$chanceType);
@@ -2069,7 +2069,7 @@ class ReportController extends Controller {
 
         //GENERAL - 1
         $chanceType = (object)array();
-        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->name = 'Tipo de ocasión de Gol';
         $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $chanceType->chart = null;
         array_push($response->reports,$chanceType);
@@ -2334,14 +2334,14 @@ class ReportController extends Controller {
 
         //RIVAL SITUATION - 2
         $invationLevel = (object)array();
-        $invationLevel->name = 'Nivel De Invación';
+        $invationLevel->name = 'Nivel De Invasión';
         $invationLevel->chart = $this->invationLevelReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $invationLevel->chart = null;
         array_push($response->reports,$invationLevel);
 
         //RIVAL SITUATION - 3
         $numericalBalance = (object)array();
-        $numericalBalance->name = 'Balance Numerico';
+        $numericalBalance->name = 'Balance numérico';
         $numericalBalance->chart = $this->numericalBalanceReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $numericalBalance->chart = null;
         array_push($response->reports,$numericalBalance);
@@ -2442,7 +2442,7 @@ class ReportController extends Controller {
 
         //DEVELOPMENT POSSESSION - 1
         $possessionPasses = (object)array();
-        $possessionPasses->name = 'Pases por poseción';
+        $possessionPasses->name = 'Pases por posesión';
         $possessionPasses->chart = $this->possessionPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $possessionPasses->chart = null;
         array_push($response->reports,$possessionPasses);
@@ -2734,7 +2734,7 @@ class ReportController extends Controller {
 
         //GENERAL - 1
         $chanceType = (object)array();
-        $chanceType->name = 'Tipo de ocación de Gol';
+        $chanceType->name = 'Tipo de ocasión de Gol';
         $chanceType->chart = $this->chanceTypeGeneralReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $chanceType->chart = null;
         array_push($response->reports,$chanceType);
@@ -2893,14 +2893,14 @@ class ReportController extends Controller {
 
         //RIVAL SITUATION - 2
         $invationLevel = (object)array();
-        $invationLevel->name = 'Nivel De Invación';
+        $invationLevel->name = 'Nivel De Invasión';
         $invationLevel->chart = $this->invationLevelReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $invationLevel->chart = null;
         array_push($response->reports,$invationLevel);
 
         //RIVAL SITUATION - 3
         $numericalBalance = (object)array();
-        $numericalBalance->name = 'Balance Numerico';
+        $numericalBalance->name = 'Balance numérico';
         $numericalBalance->chart = $this->numericalBalanceReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $numericalBalance->chart = null;
         array_push($response->reports,$numericalBalance);
@@ -2948,7 +2948,7 @@ class ReportController extends Controller {
 
         //DEVELOPMENT POSSESSION - 1
         $possessionPasses = (object)array();
-        $possessionPasses->name = 'Pases por poseción';
+        $possessionPasses->name = 'Pases por posesión';
         $possessionPasses->chart = $this->possessionPassesReport($homeChancesIds, $homeTotalChances,$awayChancesIds, $awayTotalChances);
 //        $possessionPasses->chart = null;
         array_push($response->reports,$possessionPasses);
