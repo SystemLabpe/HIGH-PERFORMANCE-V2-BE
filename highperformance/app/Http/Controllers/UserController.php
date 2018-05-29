@@ -22,6 +22,41 @@ class UserController extends Controller {
         return $user;
     }
 
+    public function edit(Request $request){
+        $user = User::find($request->user()->id);
+
+        if($request->has('name')){
+            $user->name = $request->name;
+        }
+
+        if($request->has('email')){
+            $existingUser = User::select('id')->where('email',$request->email)->first();
+            if($existingUser){
+                return $this->createErrorResponse('Email already exists',config('customErrors.EXISTING_EMAIL'));
+            }
+            $user->email = $request->email;
+        }
+
+        if ($request->has('password')) {
+            if ($request->has('old_password')) {
+                if (Hash::check($request->old_password, $user->password)) {
+                    $user->password = Hash::make($request->password);
+                } else {
+                    return $this->createErrorResponse('Passwords do not match', config('customErrors.OLD_PASSWORD_DO_NOT_MATCH'));
+                }
+            }else {
+                $request->validate([
+                    'old_password' => 'required'
+                ]);
+            }
+        }
+
+
+        $user->save();
+
+        return $user;
+    }
+
     public function allByClub($club_id){
         $users = User::where('club_id',$club_id)->get();
         if(count($users)>0){

@@ -159,6 +159,7 @@ Route::middleware(['auth:api','scope:user,admin'])->group(function () {
 
     Route::post('logout', 'Auth\ApiLoginController@revokeToken');
     Route::get('me', 'UserController@me');
+    Route::put('me', 'UserController@edit');
 
     Route::get('completionActions', 'CompletionActionController@all');
 
