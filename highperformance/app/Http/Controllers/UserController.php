@@ -30,8 +30,9 @@ class UserController extends Controller {
         }
 
         if($request->has('email')){
-            $existingUser = User::select('id')->where('email',$request->email)->first();
-            if($existingUser){
+            $existingUser = User::select('id','email')->where('email',$request->email)->first();
+            //TODO add in query
+            if($existingUser->email != $request->email){
                 return $this->createErrorResponse('Email already exists',config('customErrors.EXISTING_EMAIL'));
             }
             $user->email = $request->email;
